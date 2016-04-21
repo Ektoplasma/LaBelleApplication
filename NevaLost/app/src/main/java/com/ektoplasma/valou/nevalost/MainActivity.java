@@ -29,7 +29,7 @@ public class MainActivity extends AppCompatActivity {
         ButtonJoin.setOnClickListener(
                 new Button.OnClickListener() {
                     public void onClick(View v) {
-                       // startActivity(new Intent(MainActivity.this, JoinActivity.class));
+                        startActivity(new Intent(MainActivity.this, JoinActivity.class));
                     }
                 }
         );
@@ -37,7 +37,7 @@ public class MainActivity extends AppCompatActivity {
         ButtonSettings.setOnClickListener(
                 new Button.OnClickListener() {
                     public void onClick(View v) {
-                        // startActivity(new Intent(MainActivity.this, SettingsActivity.class));
+                         startActivity(new Intent(MainActivity.this, SettingsActivity.class));
                     }
                 }
         );
