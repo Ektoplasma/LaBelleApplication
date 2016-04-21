@@ -1,4 +1,10 @@
 <resources>
     <string name="app_name">NevaLost</string>
-    <string name="hint_username">Username</string>
+    <string name="username">Nom d\'utilisateur</string>
+    <string name="hint_username">Nom d\'utilisateur</string>
+    <string name="nom_poursuit">Nom de la Poursuite</string>
+    <string name="hint_poursuit">Nom Poursuite</string>
+    <string name="nom_password">Mot de passe</string>
+    <string name="hint_password">Mot de passe</string>
+    <string name="valider">Valider</string>
 </resources>
