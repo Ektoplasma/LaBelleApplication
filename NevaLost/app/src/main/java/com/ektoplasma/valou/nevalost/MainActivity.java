@@ -16,6 +16,7 @@ public class MainActivity extends AppCompatActivity {
 
         Button ButtonPursuit = (Button)findViewById(R.id.ButtonCreatePursuit);
         Button ButtonJoin = (Button)findViewById(R.id.ButtonJoinPursuit);
+        Button ButtonSettings = (Button)findViewById(R.id.ButtonSettings);
 
         ButtonPursuit.setOnClickListener(
                 new Button.OnClickListener() {
@@ -25,10 +26,18 @@ public class MainActivity extends AppCompatActivity {
                 }
         );
 
-        ButtonPursuit.setOnClickListener(
+        ButtonJoin.setOnClickListener(
                 new Button.OnClickListener() {
                     public void onClick(View v) {
                        // startActivity(new Intent(MainActivity.this, JoinActivity.class));
+                    }
+                }
+        );
+
+        ButtonSettings.setOnClickListener(
+                new Button.OnClickListener() {
+                    public void onClick(View v) {
+                        // startActivity(new Intent(MainActivity.this, SettingsActivity.class));
                     }
                 }
         );
