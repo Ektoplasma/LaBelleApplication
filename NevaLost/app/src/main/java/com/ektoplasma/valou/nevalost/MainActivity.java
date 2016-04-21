@@ -20,7 +20,7 @@ public class MainActivity extends AppCompatActivity {
         ButtonPursuit.setOnClickListener(
                 new Button.OnClickListener() {
                     public void onClick(View v) {
-                        startActivity(new Intent(MainActivity.this, Creation.class));
+                        startActivity(new Intent(MainActivity.this, CreationActivity.class));
                     }
                 }
         );
