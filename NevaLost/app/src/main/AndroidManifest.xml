@@ -17,7 +17,10 @@
         </activity>
         <activity android:name=".CreationActivity" />
         <activity android:name=".JoinActivity" />
-        <activity android:name=".SettingsActivity"></activity>
+        <activity android:name=".SettingsActivity" />
+
+        <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" /> //permission acces GPS
+        <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     </application>
 
 </manifest>
