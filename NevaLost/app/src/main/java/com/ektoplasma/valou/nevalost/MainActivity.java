@@ -9,7 +9,6 @@ import android.os.Bundle;
 import android.widget.Button;
 import android.content.Intent;
 import android.view.View;
-import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
     @Override
@@ -18,17 +17,15 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+    }
 
+    protected void onStart() {//Chaque fois que l'on retourne sur la fenetre
+        super.onStart();
         Button ButtonPursuit = (Button)findViewById(R.id.ButtonCreatePursuit);
         Button ButtonJoin = (Button)findViewById(R.id.ButtonJoinPursuit);
         Button ButtonSettings = (Button)findViewById(R.id.ButtonSettings);
 
-        int i = 0;
-
-        while(Geo() && i<2)
-        {
-            i++;
-        }
+        Geo();//Verification de la localisation
 
         ButtonPursuit.setOnClickListener(
                 new Button.OnClickListener() {
@@ -49,13 +46,15 @@ public class MainActivity extends AppCompatActivity {
         ButtonSettings.setOnClickListener(
                 new Button.OnClickListener() {
                     public void onClick(View v) {
-                         startActivity(new Intent(MainActivity.this, SettingsActivity.class));
+                        startActivity(new Intent(MainActivity.this, SettingsActivity.class));
                     }
                 }
         );
     }
 
-    private boolean Geo(){
+    /*Permet la verifier si la localisation est active*/
+    /*Si elle n'y est pas on lance createGpsDisabledAlert*/
+    private void Geo(){
         LocationManager locManager;
         locManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
 
@@ -63,9 +62,10 @@ public class MainActivity extends AppCompatActivity {
             createGpsDisabledAlert();
         }
 
-        return  true;
     }
 
+    /*Affiche une boîte de dialogue permettant l'accés aux paramètres de localisation*/
+    /*Si l'utilisateur refuse de l'activer l'application se ferme*/
     private void createGpsDisabledAlert() {
         AlertDialog.Builder localBuilder = new AlertDialog.Builder(this);
         localBuilder
@@ -88,7 +88,7 @@ public class MainActivity extends AppCompatActivity {
         );
         localBuilder.create().show();
     }
-
+    /*Affiche les parametres android de localisation*/
     private void showGpsOptions() {
         startActivity(new Intent("android.settings.LOCATION_SOURCE_SETTINGS"));
         finish();
