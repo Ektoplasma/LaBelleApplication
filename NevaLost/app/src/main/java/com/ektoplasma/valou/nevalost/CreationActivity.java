@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
+import android.os.Build;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -49,6 +50,9 @@ public class CreationActivity extends AppCompatActivity {
                         else
                         {
                            //lancement poursuite et vu des autres participants
+                            GetLocalisation malocalisation = new GetLocalisation(getApplicationContext());
+                            Toast.makeText(getApplicationContext(), String.valueOf(malocalisation.latitude), Toast.LENGTH_SHORT).show();
+
 
                         }
                 }

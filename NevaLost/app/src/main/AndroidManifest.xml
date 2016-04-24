@@ -27,8 +27,6 @@
         <activity android:name=".SettingsActivity" />
 
         <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-        <uses-permission android:name="android.permission.INTERNET" />
-        //permission acces GPS
         <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
