@@ -17,11 +17,10 @@ import android.view.View;
 
 public class MainActivity extends AppCompatActivity {
     @Override
-    // le beau commentaire
-    // oui il est beau
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        //Verification de l'autorisation de l'appli dans android (obligatoire pour API > 23)
         if ( Build.VERSION.SDK_INT >= 23 &&
                 ContextCompat.checkSelfPermission( getApplicationContext(), Manifest.permission.ACCESS_FINE_LOCATION ) != PackageManager.PERMISSION_GRANTED &&
                 ContextCompat.checkSelfPermission( getApplicationContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
