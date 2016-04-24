@@ -26,26 +26,27 @@ public class CreationActivity extends AppCompatActivity {
         setContentView(R.layout.activity_creation);
         Button ButtonValide = (Button)findViewById(R.id.validerpoursuite);
 
+        assert ButtonValide != null;
         ButtonValide.setOnClickListener(
                 new Button.OnClickListener() {
                     public void onClick(View v) {
                         EditText user = (EditText) findViewById(R.id.username);
+                        assert user != null;
                         String checkuser = user.getText().toString();
                         EditText pursuit = (EditText) findViewById(R.id.nom_poursuit);
+                        assert pursuit != null;
                         String checkpursuit = pursuit.getText().toString();
                         EditText mdp = (EditText) findViewById(R.id.motdepasse);
+                        assert mdp != null;
                         String checkmdp = mdp.getText().toString();
                         if (checkuser.matches("")) {
                             Toast.makeText(getApplicationContext(), "Aucun nom d'utilisateur saisi", Toast.LENGTH_SHORT).show();
-                            return;
                         }
                         else if (checkpursuit.matches("")) {
                             Toast.makeText(getApplicationContext(), "Aucun nom de poursuite saisi", Toast.LENGTH_SHORT).show();
-                            return;
                         }
                         else if (checkmdp.matches("")) {
                             Toast.makeText(getApplicationContext(), "Aucun mot de passe saisi", Toast.LENGTH_SHORT).show();
-                            return;
                         }
                         else
                         {
