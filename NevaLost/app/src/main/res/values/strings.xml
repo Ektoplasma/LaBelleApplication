@@ -7,4 +7,5 @@
     <string name="nom_password">Mot de passe</string>
     <string name="hint_password">Mot de passe</string>
     <string name="valider">Valider</string>
+    <string name="title_activity_test_map">Map</string>
 </resources>
