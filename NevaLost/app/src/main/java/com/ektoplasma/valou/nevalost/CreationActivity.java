@@ -55,9 +55,4 @@ public class CreationActivity extends AppCompatActivity {
                 }
         );
     }
-
-    protected void onStart() {
-        super.onStart();
-
-    }
 }
