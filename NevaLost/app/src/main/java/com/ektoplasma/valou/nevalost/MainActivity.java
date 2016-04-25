@@ -1,6 +1,7 @@
 package com.ektoplasma.valou.nevalost;
 
 import android.Manifest;
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -15,7 +16,7 @@ import android.widget.Button;
 import android.content.Intent;
 import android.view.View;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,7 +37,7 @@ public class MainActivity extends AppCompatActivity {
         Button ButtonJoin = (Button)findViewById(R.id.ButtonJoinPursuit);
         Button ButtonSettings = (Button)findViewById(R.id.ButtonSettings);
 
-        Geo();//Verification de la localisation
+        Geo(MainActivity.this);//Verification de la localisation
 
         ButtonPursuit.setOnClickListener(
                 new Button.OnClickListener() {
@@ -65,20 +66,20 @@ public class MainActivity extends AppCompatActivity {
 
     /*Permet la verifier si la localisation est active*/
     /*Si elle n'y est pas on lance createGpsDisabledAlert*/
-    private void Geo(){
+    private void Geo(Activity active){
         LocationManager locManager;
         locManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
 
         if (!locManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
-            createGpsDisabledAlert();
+            createGpsDisabledAlert(active);
         }
 
     }
 
     /*Affiche une boîte de dialogue permettant l'accés aux paramètres de localisation*/
     /*Si l'utilisateur refuse de l'activer l'application se ferme*/
-    private void createGpsDisabledAlert() {
-        AlertDialog.Builder localBuilder = new AlertDialog.Builder(this);
+    private void createGpsDisabledAlert(Activity active) {
+        AlertDialog.Builder localBuilder = new AlertDialog.Builder(active);
         localBuilder
                 .setMessage("Le GPS est inactif, voulez-vous l'activer ?\nNote : Si le GPS n'est pas activé l'application est inutilisable")
                 .setCancelable(false)
@@ -102,7 +103,6 @@ public class MainActivity extends AppCompatActivity {
     /*Affiche les parametres android de localisation*/
     private void showGpsOptions() {
         startActivity(new Intent("android.settings.LOCATION_SOURCE_SETTINGS"));
-        finish();
     }
 }
 

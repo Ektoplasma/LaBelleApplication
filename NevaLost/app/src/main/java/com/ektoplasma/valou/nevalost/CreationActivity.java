@@ -51,8 +51,9 @@ public class CreationActivity extends AppCompatActivity {
                         else
                         {
                            //lancement poursuite et vu des autres participants
-                            GetLocalisation malocalisation = new GetLocalisation(getApplicationContext());
-                            Toast.makeText(getApplicationContext(), String.valueOf(malocalisation.latitude), Toast.LENGTH_SHORT).show();
+                            //GetLocalisation malocalisation = new GetLocalisation(getApplicationContext());
+                            //Toast.makeText(getApplicationContext(), String.valueOf(malocalisation.latitude), Toast.LENGTH_SHORT).show();
+                            startActivity(new Intent(CreationActivity.this, TestMap.class));
 
 
                         }
