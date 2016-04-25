@@ -292,6 +292,10 @@ public class GetLocalisation extends Service implements LocationListener {
 
     @Override
     public void onLocationChanged(Location location) {
+        latitude = location.getLatitude();
+        longitude = location.getLongitude();
+        Intent i = new Intent("com.example.Broadcast");
+        sendBroadcast(i);
     }
 
     @Override
