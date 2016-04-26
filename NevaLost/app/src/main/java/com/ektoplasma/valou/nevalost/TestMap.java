@@ -9,6 +9,7 @@ import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 
 import android.location.LocationManager;
+import android.util.Log;
 
 import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -33,7 +34,7 @@ public class TestMap extends FragmentActivity implements OnMapReadyCallback {
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
-        filter = new IntentFilter("com.example.Broadcast");
+        filter = new IntentFilter("com.NevaLost.GetLoc");
         receiver = new MyReceiver();
         registerReceiver(receiver, filter);
     }
@@ -66,13 +67,14 @@ public class TestMap extends FragmentActivity implements OnMapReadyCallback {
 
         @Override
         public void onReceive(Context context, Intent intent) {
-            GetLocalisation malocalisation = new GetLocalisation(getApplicationContext());
+            /*GetLocalisation malocalisation = new GetLocalisation(getApplicationContext());
 
             LatLng quelquepart = new LatLng(malocalisation.latitude, malocalisation.longitude);
             LatLng ailleur = new LatLng(12.80, 3.50);
             mMap.addMarker(new MarkerOptions().position(quelquepart).title("Le beau marqueur"));
             mMap.addMarker(new MarkerOptions().position(ailleur).title("Le second marquer"));
-            mMap.moveCamera(CameraUpdateFactory.newLatLng(quelquepart));
+            mMap.moveCamera(CameraUpdateFactory.newLatLng(quelquepart));*/
+            Log.d(TestMap.class.getName(), "Je suis dans le receiver");
         }
     }
 }
