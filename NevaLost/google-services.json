@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "430256917862",
+    "project_id": "nevalost-188c0"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:430256917862:android:27d689d63f1b7a06",
+        "android_client_info": {
+          "package_name": "com.google.samples.quickstart.signin"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "430256917862-it7dv8afs5goi4erd0s94hmqh7j01hec.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.google.samples.quickstart.signin",
+            "certificate_hash": "81127AC3B601F7B6DB291BE1BD5205099E190A6E"
+          }
+        },
+        {
+          "client_id": "430256917862-8dnh5i1rtuu0e2ljoeq46bv8ivjgp1t3.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAJRofvRjJ0QGGmRDOsAyEbaLDjQvd116A"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 1
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
