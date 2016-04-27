@@ -34,6 +34,13 @@ public class TestMap extends FragmentActivity implements OnMapReadyCallback {
         public void onReceive(Context context, Intent intent) {
             if(intent.getAction().equals(RECEIVE_JSON)) {
                 String serviceJsonString = intent.getStringExtra("json");
+                GetLocalisation malocalisation = new GetLocalisation(getApplicationContext());
+
+                LatLng quelquepart = new LatLng(malocalisation.latitude, malocalisation.longitude);
+                LatLng ailleur = new LatLng(12.80, 3.50);
+                mMap.addMarker(new MarkerOptions().position(quelquepart).title("Le beau marqueur"));
+                mMap.addMarker(new MarkerOptions().position(ailleur).title("Le second marquer"));
+                mMap.moveCamera(CameraUpdateFactory.newLatLng(quelquepart));
                 //Do something with the string
             }
         }
@@ -83,13 +90,13 @@ public class TestMap extends FragmentActivity implements OnMapReadyCallback {
 
         @Override
         public void onReceive(Context context, Intent intent) {
-            /*GetLocalisation malocalisation = new GetLocalisation(getApplicationContext());
+            GetLocalisation malocalisation = new GetLocalisation(getApplicationContext());
 
             LatLng quelquepart = new LatLng(malocalisation.latitude, malocalisation.longitude);
             LatLng ailleur = new LatLng(12.80, 3.50);
             mMap.addMarker(new MarkerOptions().position(quelquepart).title("Le beau marqueur"));
             mMap.addMarker(new MarkerOptions().position(ailleur).title("Le second marquer"));
-            mMap.moveCamera(CameraUpdateFactory.newLatLng(quelquepart));*/
+            mMap.moveCamera(CameraUpdateFactory.newLatLng(quelquepart));
             Log.d(TestMap.class.getName(), "Je suis dans le receiver");
         }
     }
