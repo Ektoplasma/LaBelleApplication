@@ -18,30 +18,24 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 public class TestMap extends FragmentActivity implements OnMapReadyCallback {
 
     private GoogleMap mMap;
-    IntentFilter filter;
-    MyReceiver receiver;
 
-    //Your activity will respond to this action String
     public static final String RECEIVE_JSON = "com.your.package.RECEIVE_JSON";
+
+    Marker quelquepart;
+    MarkerOptions optionMarker;
+    GetLocalisation malocalisation;
 
     private BroadcastReceiver bReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
             if(intent.getAction().equals(RECEIVE_JSON)) {
-                String serviceJsonString = intent.getStringExtra("json");
-                GetLocalisation malocalisation = new GetLocalisation(getApplicationContext());
-
-                LatLng quelquepart = new LatLng(malocalisation.latitude, malocalisation.longitude);
-                LatLng ailleur = new LatLng(12.80, 3.50);
-                mMap.addMarker(new MarkerOptions().position(quelquepart).title("Le beau marqueur"));
-                mMap.addMarker(new MarkerOptions().position(ailleur).title("Le second marquer"));
-                mMap.moveCamera(CameraUpdateFactory.newLatLng(quelquepart));
-                //Do something with the string
+                quelquepart.setPosition(new LatLng(malocalisation.latitude, malocalisation.longitude));
             }
         }
     };
@@ -49,17 +43,14 @@ public class TestMap extends FragmentActivity implements OnMapReadyCallback {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_test_map);
-        // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
-        /*filter = new IntentFilter("com.NevaLost.GetLoc");
-        receiver = new MyReceiver();
-        registerReceiver(receiver, filter);*/
         LocalBroadcastManager bManager = LocalBroadcastManager.getInstance(this);
         IntentFilter intentFilter = new IntentFilter();
         intentFilter.addAction(RECEIVE_JSON);
         bManager.registerReceiver(bReceiver, intentFilter);
+        malocalisation = new GetLocalisation(getApplicationContext());
     }
 
 
@@ -75,29 +66,14 @@ public class TestMap extends FragmentActivity implements OnMapReadyCallback {
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
+        //LatLng quelquepart = new LatLng(malocalisation.latitude, malocalisation.longitude);
+        //LatLng ailleur = new LatLng(12.80, 3.50);
+       optionMarker = new MarkerOptions()
+                .position(new LatLng(malocalisation.latitude,malocalisation.longitude));
+        quelquepart = mMap.addMarker(optionMarker);
+        //mMap.addMarker(new MarkerOptions().position(quelquepart).title("Le beau marqueur"));
+       // mMap.addMarker(new MarkerOptions().position(ailleur).title("Le second marquer"));
+        //mMap.moveCamera(CameraUpdateFactory.newLatLng(quelquepart));
 
-        GetLocalisation malocalisation = new GetLocalisation(getApplicationContext());
-
-        LatLng quelquepart = new LatLng(malocalisation.latitude, malocalisation.longitude);
-        LatLng ailleur = new LatLng(12.80, 3.50);
-        mMap.addMarker(new MarkerOptions().position(quelquepart).title("Le beau marqueur"));
-        mMap.addMarker(new MarkerOptions().position(ailleur).title("Le second marquer"));
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(quelquepart));
-
-    }
-
-    public class MyReceiver extends BroadcastReceiver {
-
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            GetLocalisation malocalisation = new GetLocalisation(getApplicationContext());
-
-            LatLng quelquepart = new LatLng(malocalisation.latitude, malocalisation.longitude);
-            LatLng ailleur = new LatLng(12.80, 3.50);
-            mMap.addMarker(new MarkerOptions().position(quelquepart).title("Le beau marqueur"));
-            mMap.addMarker(new MarkerOptions().position(ailleur).title("Le second marquer"));
-            mMap.moveCamera(CameraUpdateFactory.newLatLng(quelquepart));
-            Log.d(TestMap.class.getName(), "Je suis dans le receiver");
-        }
     }
 }
