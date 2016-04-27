@@ -36,6 +36,7 @@ public class TestMap extends FragmentActivity implements OnMapReadyCallback {
         public void onReceive(Context context, Intent intent) {
             if(intent.getAction().equals(RECEIVE_JSON)) {
                 quelquepart.setPosition(new LatLng(malocalisation.latitude, malocalisation.longitude));
+                mMap.moveCamera(CameraUpdateFactory.newLatLng(quelquepart.getPosition()));
             }
         }
     };
@@ -73,7 +74,7 @@ public class TestMap extends FragmentActivity implements OnMapReadyCallback {
         quelquepart = mMap.addMarker(optionMarker);
         //mMap.addMarker(new MarkerOptions().position(quelquepart).title("Le beau marqueur"));
        // mMap.addMarker(new MarkerOptions().position(ailleur).title("Le second marquer"));
-        //mMap.moveCamera(CameraUpdateFactory.newLatLng(quelquepart));
+        mMap.moveCamera(CameraUpdateFactory.newLatLng(quelquepart.getPosition()));
 
     }
 }
