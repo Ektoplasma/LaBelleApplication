@@ -1,17 +1,8 @@
 package com.ektoplasma.valou.nevalost;
 
-import android.content.BroadcastReceiver;
-import android.content.Context;
-import android.content.Intent;
-import android.content.IntentFilter;
-import android.os.SystemClock;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 
-import android.location.LocationManager;
-import android.util.Log;
-
-import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -22,9 +13,6 @@ import com.google.android.gms.maps.model.MarkerOptions;
 public class TestMap extends FragmentActivity implements OnMapReadyCallback {
 
     private GoogleMap mMap;
-    IntentFilter filter;
-    MyReceiver receiver;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,9 +22,6 @@ public class TestMap extends FragmentActivity implements OnMapReadyCallback {
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
-        filter = new IntentFilter("com.NevaLost.GetLoc");
-        receiver = new MyReceiver();
-        registerReceiver(receiver, filter);
     }
 
 
@@ -53,28 +38,9 @@ public class TestMap extends FragmentActivity implements OnMapReadyCallback {
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
 
-        GetLocalisation malocalisation = new GetLocalisation(getApplicationContext());
-
-            LatLng quelquepart = new LatLng(malocalisation.latitude, malocalisation.longitude);
-            LatLng ailleur = new LatLng(12.80, 3.50);
-            mMap.addMarker(new MarkerOptions().position(quelquepart).title("Le beau marqueur"));
-            mMap.addMarker(new MarkerOptions().position(ailleur).title("Le second marquer"));
-            mMap.moveCamera(CameraUpdateFactory.newLatLng(quelquepart));
-
-    }
-
-    public class MyReceiver extends BroadcastReceiver {
-
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            /*GetLocalisation malocalisation = new GetLocalisation(getApplicationContext());
-
-            LatLng quelquepart = new LatLng(malocalisation.latitude, malocalisation.longitude);
-            LatLng ailleur = new LatLng(12.80, 3.50);
-            mMap.addMarker(new MarkerOptions().position(quelquepart).title("Le beau marqueur"));
-            mMap.addMarker(new MarkerOptions().position(ailleur).title("Le second marquer"));
-            mMap.moveCamera(CameraUpdateFactory.newLatLng(quelquepart));*/
-            Log.d(TestMap.class.getName(), "Je suis dans le receiver");
-        }
+        // Add a marker in Sydney and move the camera
+        LatLng sydney = new LatLng(-34, 151);
+        mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
+        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
     }
 }
