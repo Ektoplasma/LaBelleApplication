@@ -9,6 +9,7 @@ import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 
 import android.location.LocationManager;
+import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 
 import com.google.android.gms.location.LocationListener;
@@ -25,7 +26,18 @@ public class TestMap extends FragmentActivity implements OnMapReadyCallback {
     IntentFilter filter;
     MyReceiver receiver;
 
+    //Your activity will respond to this action String
+    public static final String RECEIVE_JSON = "com.your.package.RECEIVE_JSON";
 
+    private BroadcastReceiver bReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if(intent.getAction().equals(RECEIVE_JSON)) {
+                String serviceJsonString = intent.getStringExtra("json");
+                //Do something with the string
+            }
+        }
+    };
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -34,9 +46,13 @@ public class TestMap extends FragmentActivity implements OnMapReadyCallback {
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
-        filter = new IntentFilter("com.NevaLost.GetLoc");
+        /*filter = new IntentFilter("com.NevaLost.GetLoc");
         receiver = new MyReceiver();
-        registerReceiver(receiver, filter);
+        registerReceiver(receiver, filter);*/
+        LocalBroadcastManager bManager = LocalBroadcastManager.getInstance(this);
+        IntentFilter intentFilter = new IntentFilter();
+        intentFilter.addAction(RECEIVE_JSON);
+        bManager.registerReceiver(bReceiver, intentFilter);
     }
 
 
