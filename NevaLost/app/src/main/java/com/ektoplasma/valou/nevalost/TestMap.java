@@ -54,7 +54,14 @@ public class TestMap extends FragmentActivity implements OnMapReadyCallback {
         @Override
         public void onReceive(Context context, Intent intent) {
             if(intent.getAction().equals(RECEIVE_JSON)) {
-                polyline.remove();
+
+               try{
+                   polyline.remove();
+               }
+               catch(Exception e){
+                    Log.d(TestMap.class.getName(), "Aucun polyline");
+                }
+
                 quelquepart.setPosition(new LatLng(malocalisation.latitude, malocalisation.longitude));
                 mMap.moveCamera(CameraUpdateFactory.newLatLng(quelquepart.getPosition()));
                 String url = getDirectionsUrl(new LatLng(malocalisation.latitude, malocalisation.longitude), dest);
@@ -62,6 +69,7 @@ public class TestMap extends FragmentActivity implements OnMapReadyCallback {
                 DownloadTask downloadTask = new DownloadTask();
 
                 downloadTask.execute(url);
+
             }
         }
     };
