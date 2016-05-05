@@ -16,14 +16,56 @@ import android.widget.EditText;
 import android.widget.Toast;
 import android.location.LocationManager;
 
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.Volley;
 import com.google.android.gms.location.LocationListener;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class CreationActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+
+        Map<String, String> params = new HashMap<>();
+        params.put("message", "lebeaumessage");
+        params.put("auteur", "valou et ektoplasma");
+
+        Response.Listener<JSONObject> reponseListener= new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                try {
+                    JSONObject jsonResponse = response.getJSONObject("form");
+                    String message = jsonResponse.getString("message"),
+                            auteur = jsonResponse.getString("auteur");
+                    System.out.println("Message: "+message+"\nAuteur: "+auteur);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        };
+
+        Response.ErrorListener errorListener = new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                error.printStackTrace();
+            }
+        };
+        DataRequest requestor = new DataRequest(Request.Method.POST, "https://httpbin.org/post",params, reponseListener, errorListener);
+
+        Volley.newRequestQueue(this).add(requestor);
+
+
         setContentView(R.layout.activity_creation);
+
         Button ButtonValide = (Button)findViewById(R.id.validerpoursuite);
 
         assert ButtonValide != null;
