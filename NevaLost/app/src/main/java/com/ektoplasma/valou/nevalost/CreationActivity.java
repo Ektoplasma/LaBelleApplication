@@ -82,12 +82,11 @@ public class CreationActivity extends AppCompatActivity {
             @Override
             public void onResponse(JSONObject response) {
                 try {
-                    JSONObject jsonResponse = response.getJSONObject("form");
-                    String user = jsonResponse.getString("user"),
-                            pursuit = jsonResponse.getString("pursuit"),
-                            password = jsonResponse.getString("password");
+                    //JSONObject jsonResponse = response.getJSONObject("form");
+                    JSONObject jsonResponse = response.getJSONObject("statut");
+                    String succes = jsonResponse.getString("succes");
 
-                    System.out.println("Utilisateur: "+user+"\nPoursuite: "+pursuit+"\nMot de passe: "+password);
+                    System.out.println("Succes: "+succes);
                     startActivity(new Intent(CreationActivity.this, TestMap.class));
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -101,7 +100,7 @@ public class CreationActivity extends AppCompatActivity {
                 error.printStackTrace();
             }
         };
-        DataRequest requestor = new DataRequest(Request.Method.POST, "https://httpbin.org/post",params, reponseListener, errorListener);
+        DataRequest requestor = new DataRequest(Request.Method.POST, "http://10.0.2.2",params, reponseListener, errorListener);
 
         QueueSingleton.getInstance(this).addToRequestQueue(requestor);
         //Volley.newRequestQueue(this).add(requestor);
