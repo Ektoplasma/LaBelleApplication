@@ -103,6 +103,7 @@ public class CreationActivity extends AppCompatActivity {
         };
         DataRequest requestor = new DataRequest(Request.Method.POST, "https://httpbin.org/post",params, reponseListener, errorListener);
 
-        Volley.newRequestQueue(this).add(requestor);
+        QueueSingleton.getInstance(this).addToRequestQueue(requestor);
+        //Volley.newRequestQueue(this).add(requestor);
     }
 }
