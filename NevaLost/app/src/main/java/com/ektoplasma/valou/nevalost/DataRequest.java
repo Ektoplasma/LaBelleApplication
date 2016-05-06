@@ -38,8 +38,6 @@ public class DataRequest extends Request<JSONObject> {
         return params;
     }
 
-    ;
-
     @Override
     protected Response<JSONObject> parseNetworkResponse(NetworkResponse response) {
         try {

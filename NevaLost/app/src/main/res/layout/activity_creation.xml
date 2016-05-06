@@ -36,12 +36,13 @@ tools:context="com.ektoplasma.valou.nevalost.CreationActivity">
     android:layout_height="wrap_content"
     android:id="@+id/motdepasse"
     android:hint="@string/hint_password"
-    android:inputType="text"
+    android:inputType="textPassword"
     android:layout_below="@+id/viewPw"
     android:layout_alignParentLeft="true"
     android:layout_alignParentStart="true"
         android:layout_alignRight="@+id/nom_poursuit"
-        android:layout_alignEnd="@+id/nom_poursuit" />
+        android:layout_alignEnd="@+id/nom_poursuit"
+        android:password="false" />
 
 <Button
     android:layout_width="wrap_content"

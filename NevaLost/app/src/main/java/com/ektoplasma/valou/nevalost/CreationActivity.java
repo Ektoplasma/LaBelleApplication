@@ -34,36 +34,6 @@ public class CreationActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-
-        Map<String, String> params = new HashMap<>();
-        params.put("message", "lebeaumessage");
-        params.put("auteur", "valou et ektoplasma");
-
-        Response.Listener<JSONObject> reponseListener= new Response.Listener<JSONObject>() {
-            @Override
-            public void onResponse(JSONObject response) {
-                try {
-                    JSONObject jsonResponse = response.getJSONObject("form");
-                    String message = jsonResponse.getString("message"),
-                            auteur = jsonResponse.getString("auteur");
-                    System.out.println("Message: "+message+"\nAuteur: "+auteur);
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }
-        };
-
-        Response.ErrorListener errorListener = new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                error.printStackTrace();
-            }
-        };
-        DataRequest requestor = new DataRequest(Request.Method.POST, "https://httpbin.org/post",params, reponseListener, errorListener);
-
-        Volley.newRequestQueue(this).add(requestor);
-
-
         setContentView(R.layout.activity_creation);
 
         Button ButtonValide = (Button)findViewById(R.id.validerpoursuite);
@@ -95,12 +65,44 @@ public class CreationActivity extends AppCompatActivity {
                            //lancement poursuite et vu des autres participants
                             //GetLocalisation malocalisation = new GetLocalisation(getApplicationContext());
                             //Toast.makeText(getApplicationContext(), String.valueOf(malocalisation.latitude), Toast.LENGTH_SHORT).show();
-                            startActivity(new Intent(CreationActivity.this, TestMap.class));
-
-
+                            requestInstance(checkuser, checkpursuit, checkmdp);
                         }
                 }
                 }
         );
+    }
+
+    protected void requestInstance(String user, String pursuit, String password){
+        Map<String, String> params = new HashMap<>();
+        params.put("user", user);
+        params.put("pursuit", pursuit);
+        params.put("password",password);
+
+        Response.Listener<JSONObject> reponseListener= new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                try {
+                    JSONObject jsonResponse = response.getJSONObject("form");
+                    String user = jsonResponse.getString("user"),
+                            pursuit = jsonResponse.getString("pursuit"),
+                            password = jsonResponse.getString("password");
+
+                    System.out.println("Utilisateur: "+user+"\nPoursuite: "+pursuit+"\nMot de passe: "+password);
+                    startActivity(new Intent(CreationActivity.this, TestMap.class));
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        };
+
+        Response.ErrorListener errorListener = new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                error.printStackTrace();
+            }
+        };
+        DataRequest requestor = new DataRequest(Request.Method.POST, "https://httpbin.org/post",params, reponseListener, errorListener);
+
+        Volley.newRequestQueue(this).add(requestor);
     }
 }
