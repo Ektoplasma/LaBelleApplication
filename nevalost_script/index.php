@@ -30,9 +30,6 @@
 
 		$response["statut"] = array("succes"=>"true","cookie"=>$cookie);
 
-		//setcookie('NevaToken', 'content', 1); pour supprimer
-		//setcookie( "NevaToken", $cookie, strtotime( '+1 days' ) );
-
 		header('Content-Type: application/json;charset=utf-8');
 		echo json_encode($response, JSON_FORCE_OBJECT | JSON_PRETTY_PRINT);
 	}

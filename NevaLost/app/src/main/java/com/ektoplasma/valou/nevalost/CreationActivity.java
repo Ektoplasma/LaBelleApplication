@@ -78,6 +78,9 @@ public class CreationActivity extends AppCompatActivity {
         params.put("pursuit", pursuit);
         params.put("password",password);
 
+        Profile.setUsername(user);
+        Profile.setPursuit(pursuit);
+
         Response.Listener<JSONObject> reponseListener= new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
@@ -92,7 +95,13 @@ public class CreationActivity extends AppCompatActivity {
                     if(succes.matches("true")) {
                         String cookie = jsonResponse.getString("cookie");
                         System.out.println("Cookie: "+cookie);
+                        Profile.setCookieInstance(cookie);
                         startActivity(new Intent(CreationActivity.this, TestMap.class));
+                    }
+                    else{
+                        Profile.setUsername("");
+                        Profile.setPursuit("");
+                        System.out.println("Try again please.");
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
