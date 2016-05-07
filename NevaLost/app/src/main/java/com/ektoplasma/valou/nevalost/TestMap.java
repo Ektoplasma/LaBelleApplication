@@ -85,6 +85,11 @@ public class TestMap extends FragmentActivity implements OnMapReadyCallback {
         intentFilter.addAction(RECEIVE_JSON);
         bManager.registerReceiver(bReceiver, intentFilter);
         malocalisation = new GetLocalisation(getApplicationContext());
+
+        Profile.setCurrentLong(malocalisation.getLongitude());
+        Profile.setCurrentLat(malocalisation.getLatitude());
+
+        Profile.sendGeol(this);
     }
 
 

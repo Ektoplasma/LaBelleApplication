@@ -115,7 +115,7 @@ public class CreationActivity extends AppCompatActivity {
                 error.printStackTrace();
             }
         };
-        DataRequest requestor = new DataRequest(Request.Method.POST, "http://10.0.2.2",params, reponseListener, errorListener);
+        DataRequest requestor = new DataRequest(Request.Method.POST, "http://10.0.2.2/create.php",params, reponseListener, errorListener);
 
         QueueSingleton.getInstance(this).addToRequestQueue(requestor);
         //Volley.newRequestQueue(this).add(requestor);

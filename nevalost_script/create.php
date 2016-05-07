@@ -22,8 +22,8 @@
 		$pursuit->user = $user;
 		$pursuit->nom_poursuite  = $pursuitName;
 		$pursuit->password = $o_mdp;
-		$pursuit->longitude = "47.0";
-		$pursuit->latitude = "4.0";
+		$pursuit->longitude = "1.0";
+		$pursuit->latitude = "1.0";
 		$pursuit->cookie = $cookie;
 
 		$creation = $pursuit->Create();
