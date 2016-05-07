@@ -13,14 +13,26 @@
 	$mdp = filter_var($_POST["password"],FILTER_SANITIZE_FULL_SPECIAL_CHARS);
 
 	if(!empty($user) && !empty($pursuitName) && !empty($mdp)){
+
+		$o_mdp = password_hash($mdp, PASSWORD_DEFAULT);
+
+		$salt = openssl_random_pseudo_bytes(32);
+		$cookie = hash('sha256', $user.$pursuitName.$o_mdp.$salt);
+
 		$pursuit->user = $user;
 		$pursuit->nom_poursuite  = $pursuitName;
-		$pursuit->password = password_hash($password, PASSWORD_DEFAULT);
+		$pursuit->password = $o_mdp;
 		$pursuit->longitude = "47.0";
 		$pursuit->latitude = "4.0";
-		$creation = $pursuit->Create(); 
+		$pursuit->cookie = $cookie;
 
-		$response["statut"] = array("succes"=>"true");
+		$creation = $pursuit->Create();
+
+		$response["statut"] = array("succes"=>"true","cookie"=>$cookie);
+
+		//setcookie('NevaToken', 'content', 1); pour supprimer
+		//setcookie( "NevaToken", $cookie, strtotime( '+1 days' ) );
+
 		header('Content-Type: application/json;charset=utf-8');
 		echo json_encode($response, JSON_FORCE_OBJECT | JSON_PRETTY_PRINT);
 	}

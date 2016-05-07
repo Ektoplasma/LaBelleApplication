@@ -87,7 +87,13 @@ public class CreationActivity extends AppCompatActivity {
                     String succes = jsonResponse.getString("succes");
 
                     System.out.println("Succes: "+succes);
-                    startActivity(new Intent(CreationActivity.this, TestMap.class));
+
+                    assert(succes != null);
+                    if(succes.matches("true")) {
+                        String cookie = jsonResponse.getString("cookie");
+                        System.out.println("Cookie: "+cookie);
+                        startActivity(new Intent(CreationActivity.this, TestMap.class));
+                    }
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
