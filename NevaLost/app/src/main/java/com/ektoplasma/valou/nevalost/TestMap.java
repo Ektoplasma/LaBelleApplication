@@ -106,7 +106,7 @@ public class TestMap extends FragmentActivity implements OnMapReadyCallback {
         mMap.moveCamera(CameraUpdateFactory.newLatLng(quelquepart.getPosition()));
 
         LatLng origin = new LatLng(malocalisation.latitude, malocalisation.longitude);
-        dest = new LatLng(12.80, 3.50);
+        dest = new LatLng(47.081734, 2.397469);
         mMap.addMarker(new MarkerOptions().position(dest).title("Le second marquer"));
         String url = getDirectionsUrl(origin, dest);
 
@@ -130,7 +130,7 @@ public class TestMap extends FragmentActivity implements OnMapReadyCallback {
 
         String sensor = "sensor=false";
 
-        String parameters = str_origin + "&" + str_dest + "&" + sensor;
+        String parameters = str_origin + "&" + str_dest + "&" + sensor + "&mode=walking";
 
         String output = "json";
 
