@@ -80,7 +80,7 @@ public final class Profile {
                 error.printStackTrace();
             }
         };
-        DataRequest requestor = new DataRequest(Request.Method.POST, "http://10.0.2.2/update.php",params, reponseListener, errorListener);
+        DataRequest requestor = new DataRequest(Request.Method.POST, "http://valou.ddns.net/update.php",params, reponseListener, errorListener);
 
         QueueSingleton.getInstance(ctx).addToRequestQueue(requestor);
 
@@ -122,7 +122,7 @@ public final class Profile {
                 error.printStackTrace();
             }
         };
-        DataRequest requestor = new DataRequest(Request.Method.POST, "http://10.0.2.2/update.php",params, reponseListener, errorListener);
+        DataRequest requestor = new DataRequest(Request.Method.POST, "http://valou.ddns.net/update.php",params, reponseListener, errorListener);
 
         QueueSingleton.getInstance(ctx).addToRequestQueue(requestor);
 
