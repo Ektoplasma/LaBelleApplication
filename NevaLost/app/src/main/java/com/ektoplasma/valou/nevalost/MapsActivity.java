@@ -38,7 +38,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public class TestMap extends FragmentActivity implements OnMapReadyCallback {
+public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
 
     private GoogleMap mMap;
 
@@ -55,11 +55,11 @@ public class TestMap extends FragmentActivity implements OnMapReadyCallback {
         public void onReceive(Context context, Intent intent) {
             if(intent.getAction().equals(RECEIVE_JSON)) {
 
-               try{
-                   polyline.remove();
-               }
-               catch(Exception e){
-                    Log.d(TestMap.class.getName(), "Aucun polyline");
+                try{
+                    polyline.remove();
+                }
+                catch(Exception e){
+                    Log.d(MapsActivity.class.getName(), "Aucun polyline");
                 }
 
                 quelquepart.setPosition(new LatLng(malocalisation.latitude, malocalisation.longitude));
@@ -76,7 +76,7 @@ public class TestMap extends FragmentActivity implements OnMapReadyCallback {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_test_map);
+        setContentView(R.layout.activity_maps);
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
@@ -98,11 +98,11 @@ public class TestMap extends FragmentActivity implements OnMapReadyCallback {
         mMap = googleMap;
         //LatLng quelquepart = new LatLng(malocalisation.latitude, malocalisation.longitude);
         //LatLng ailleur = new LatLng(12.80, 3.50);
-       optionMarker = new MarkerOptions()
+        optionMarker = new MarkerOptions()
                 .position(new LatLng(malocalisation.latitude,malocalisation.longitude));
         quelquepart = mMap.addMarker(optionMarker);
         //mMap.addMarker(new MarkerOptions().position(quelquepart).title("Le beau marqueur"));
-       // mMap.addMarker(new MarkerOptions().position(ailleur).title("Le second marquer"));
+        // mMap.addMarker(new MarkerOptions().position(ailleur).title("Le second marquer"));
         mMap.moveCamera(CameraUpdateFactory.newLatLng(quelquepart.getPosition()));
 
         LatLng origin = new LatLng(malocalisation.latitude, malocalisation.longitude);

@@ -96,7 +96,7 @@ public class CreationActivity extends AppCompatActivity {
                         String cookie = jsonResponse.getString("cookie");
                         System.out.println("Cookie: "+cookie);
                         Profile.setCookieInstance(cookie);
-                        startActivity(new Intent(CreationActivity.this, TestMap.class));
+                        startActivity(new Intent(CreationActivity.this, MapsActivity.class));
                     }
                     else{
                         Profile.setUsername("");
