@@ -61,7 +61,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 }
 
                 quelquepart.setPosition(new LatLng(malocalisation.latitude, malocalisation.longitude));
-                mMap.moveCamera(CameraUpdateFactory.newLatLng(quelquepart.getPosition()));
+                float zoomlevel = (float) 16.0;
+                mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(quelquepart.getPosition(), zoomlevel));
                 String url = getDirectionsUrl(new LatLng(malocalisation.latitude, malocalisation.longitude), dest);
 
                 DownloadTask downloadTask = new DownloadTask();
@@ -116,10 +117,13 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         quelquepart = mMap.addMarker(optionMarker);
         //mMap.addMarker(new MarkerOptions().position(quelquepart).title("Le beau marqueur"));
         // mMap.addMarker(new MarkerOptions().position(ailleur).title("Le second marquer"));
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(quelquepart.getPosition()));
+
+        //mMap.moveCamera(CameraUpdateFactory.newLatLng(quelquepart.getPosition()));
+        float zoomlevel = (float) 16.0;
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(quelquepart.getPosition(), zoomlevel));
 
         LatLng origin = new LatLng(malocalisation.latitude, malocalisation.longitude);
-        //dest = new LatLng(47.081734, 2.397469);
+        dest = new LatLng(47.081734, 2.397469);
         assert(dest != null);
         mMap.addMarker(new MarkerOptions().position(dest).title("Le second marquer"));
         String url = getDirectionsUrl(origin, dest);

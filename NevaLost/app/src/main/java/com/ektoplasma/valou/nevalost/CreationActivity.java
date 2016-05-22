@@ -107,7 +107,8 @@ public class CreationActivity extends AppCompatActivity {
                 error.printStackTrace();
             }
         };
-        DataRequest requestor = new DataRequest(Request.Method.POST, "http://valou.ddns.net/create.php",params, reponseListener, errorListener);
+        //DataRequest requestor = new DataRequest(Request.Method.POST, "http://valou.ddns.net/create.php",params, reponseListener, errorListener);
+        DataRequest requestor = new DataRequest(Request.Method.POST, "http://192.168.45.72/create.php",params, reponseListener, errorListener);
 
         QueueSingleton.getInstance(this).addToRequestQueue(requestor);
         //Volley.newRequestQueue(this).add(requestor);

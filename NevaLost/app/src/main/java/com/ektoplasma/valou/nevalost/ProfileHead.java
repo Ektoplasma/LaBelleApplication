@@ -80,7 +80,9 @@ public final class ProfileHead {
                 error.printStackTrace();
             }
         };
-        DataRequest requestor = new DataRequest(Request.Method.POST, "http://valou.ddns.net/update.php",params, reponseListener, errorListener);
+
+        //DataRequest requestor = new DataRequest(Request.Method.POST, "http://valou.ddns.net/update.php",params, reponseListener, errorListener);
+        DataRequest requestor = new DataRequest(Request.Method.POST, "http://192.168.45.72/update.php",params, reponseListener, errorListener);
 
         QueueSingleton.getInstance(ctx).addToRequestQueue(requestor);
 
@@ -122,8 +124,8 @@ public final class ProfileHead {
                 error.printStackTrace();
             }
         };
-        DataRequest requestor = new DataRequest(Request.Method.POST, "http://valou.ddns.net/update.php",params, reponseListener, errorListener);
-        //DataRequest requestor = new DataRequest(Request.Method.POST, "http://192.168.45.72/update.php",params, reponseListener, errorListener);
+        //DataRequest requestor = new DataRequest(Request.Method.POST, "http://valou.ddns.net/update.php",params, reponseListener, errorListener);
+        DataRequest requestor = new DataRequest(Request.Method.POST, "http://192.168.45.72/update.php",params, reponseListener, errorListener);
 
         QueueSingleton.getInstance(ctx).addToRequestQueue(requestor);
 
@@ -161,7 +163,8 @@ public final class ProfileHead {
                 error.printStackTrace();
             }
         };
-        DataRequest requestor = new DataRequest(Request.Method.POST, "http://valou.ddns.net/delete.php",params, reponseListener, errorListener);
+        //DataRequest requestor = new DataRequest(Request.Method.POST, "http://valou.ddns.net/delete.php",params, reponseListener, errorListener);
+        DataRequest requestor = new DataRequest(Request.Method.POST, "http://192.168.45.72/delete.php",params, reponseListener, errorListener);
 
         QueueSingleton.getInstance(ctx).addToRequestQueue(requestor);
     }

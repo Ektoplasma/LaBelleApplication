@@ -77,8 +77,8 @@ public final class ProfilePack {
                 error.printStackTrace();
             }
         };
-        DataRequest requestor = new DataRequest(Request.Method.POST, "http://valou.ddns.net/read.php",params, reponseListener, errorListener);
-        //DataRequest requestor = new DataRequest(Request.Method.POST, "http://192.168.45.72/read.php",params, reponseListener, errorListener);
+       // DataRequest requestor = new DataRequest(Request.Method.POST, "http://valou.ddns.net/read.php",params, reponseListener, errorListener);
+        DataRequest requestor = new DataRequest(Request.Method.POST, "http://192.168.45.72/read.php",params, reponseListener, errorListener);
 
         QueueSingleton.getInstance(ctx).addToRequestQueue(requestor);
 
