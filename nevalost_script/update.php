@@ -58,12 +58,5 @@
 	header('Content-Type: application/json;charset=utf-8');
 	echo json_encode($response, JSON_FORCE_OBJECT | JSON_PRETTY_PRINT);
    }
-   function d($v, $t = "") 
-   {
-      echo '<pre>';
-      echo '<h1>' . $t. '</h1>';
-      var_dump($v);
-      echo '</pre>';
-   }
 
 ?>
