@@ -221,6 +221,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
                 // Starts parsing data
                 routes = parser.parse(jObject);
+
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -248,6 +249,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
                 // Fetching i-th route
                 List<HashMap<String, String>> path = result.get(i);
+
 
                 // Fetching all the points in i-th route
                 for (int j = 0; j < path.size(); j++) {
