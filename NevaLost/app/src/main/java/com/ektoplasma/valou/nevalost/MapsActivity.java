@@ -6,16 +6,13 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.Color;
 import android.os.AsyncTask;
-import android.os.SystemClock;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 
-import android.location.LocationManager;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 import android.widget.Toast;
 
-import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -41,6 +38,7 @@ import java.util.List;
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
 
     private GoogleMap mMap;
+    private String role;
 
     public static final String RECEIVE_JSON = "com.your.package.RECEIVE_JSON";
 
@@ -84,12 +82,27 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         IntentFilter intentFilter = new IntentFilter();
         intentFilter.addAction(RECEIVE_JSON);
         bManager.registerReceiver(bReceiver, intentFilter);
-        malocalisation = new GetLocalisation(getApplicationContext());
 
-        Profile.setCurrentLong(malocalisation.getLongitude());
-        Profile.setCurrentLat(malocalisation.getLatitude());
+        role = getIntent().getExtras().getString("role");
 
-        Profile.sendGeol(this);
+        assert(role != null);
+        if(role.matches("creator")) {
+            malocalisation = new GetLocalisation(getApplicationContext());
+
+            ProfileHead.setCurrentLong(malocalisation.getLongitude());
+            ProfileHead.setCurrentLat(malocalisation.getLatitude());
+
+            ProfileHead.sendGeol(this);
+        }
+        else if(role.matches("follower")){
+            ProfilePack.getGeol(this);
+
+            double lon = ProfilePack.getMasterLong();
+            double lat = ProfilePack.getMasterLat();
+
+            dest = new LatLng(lat, lon);
+
+        }
     }
 
 
@@ -106,7 +119,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mMap.moveCamera(CameraUpdateFactory.newLatLng(quelquepart.getPosition()));
 
         LatLng origin = new LatLng(malocalisation.latitude, malocalisation.longitude);
-        dest = new LatLng(47.081734, 2.397469);
+        //dest = new LatLng(47.081734, 2.397469);
+        assert(dest != null);
         mMap.addMarker(new MarkerOptions().position(dest).title("Le second marquer"));
         String url = getDirectionsUrl(origin, dest);
 

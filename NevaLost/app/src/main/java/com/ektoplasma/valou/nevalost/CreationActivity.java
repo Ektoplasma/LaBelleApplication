@@ -1,26 +1,16 @@
 package com.ektoplasma.valou.nevalost;
 
-import android.Manifest;
-import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.location.Location;
-import android.os.Build;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
-import android.location.LocationManager;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.android.volley.toolbox.Volley;
-import com.google.android.gms.location.LocationListener;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -78,8 +68,8 @@ public class CreationActivity extends AppCompatActivity {
         params.put("pursuit", pursuit);
         params.put("password",password);
 
-        Profile.setUsername(user);
-        Profile.setPursuit(pursuit);
+        ProfileHead.setUsername(user);
+        ProfileHead.setPursuit(pursuit);
 
         Response.Listener<JSONObject> reponseListener= new Response.Listener<JSONObject>() {
             @Override
@@ -95,12 +85,14 @@ public class CreationActivity extends AppCompatActivity {
                     if(succes.matches("true")) {
                         String cookie = jsonResponse.getString("cookie");
                         System.out.println("Cookie: "+cookie);
-                        Profile.setCookieInstance(cookie);
-                        startActivity(new Intent(CreationActivity.this, MapsActivity.class));
+                        ProfileHead.setCookieInstance(cookie);
+                        Intent mapIntent = new Intent(CreationActivity.this, MapsActivity.class);
+                        mapIntent.putExtra("role","creator");
+                        startActivity(mapIntent);
                     }
                     else{
-                        Profile.setUsername("");
-                        Profile.setPursuit("");
+                        ProfileHead.setUsername("");
+                        ProfileHead.setPursuit("");
                         System.out.println("Try again please.");
                     }
                 } catch (JSONException e) {
