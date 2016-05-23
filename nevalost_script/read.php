@@ -1,39 +1,40 @@
 <?php 
 
    require("Pursuit.class.php");
-	
+   require("Follower.class.php");
+
    $pursuit  = new Pursuit();
+   $follower  = new Follower();
    $response = array();
 
-   if (isset($_POST["longitude"]) && isset($_POST["latitude"])  && isset($_POST["cookie"])) {
+   if (isset($_POST["cookie"])) {
 
-	$longitude = filter_var($_POST["longitude"],FILTER_SANITIZE_FULL_SPECIAL_CHARS);
-	$latitude = filter_var($_POST["latitude"],FILTER_SANITIZE_FULL_SPECIAL_CHARS);
 	$cookie = filter_var($_POST["cookie"],FILTER_SANITIZE_FULL_SPECIAL_CHARS); 
 
-	if(!empty($_POST["longitude"]) && !empty($_POST["latitude"])  && !empty($_POST["cookie"])){
+	if(!empty($_POST["cookie"])){
 
-		$lon = floatval($longitude);
-		$lat = floatval($latitude);
+		$follower->cookie = $cookie;
+		$found_follower = $follower->Search();
 
-		$pursuit->cookie = $cookie;
-		$found_pursuit = $pursuit->Search();
+		if(!empty($found_follower)){
 
-		if(!empty($found_pursuit)){
+			foreach($found_follower as $o_follower){
 
-			foreach($found_pursuit as $o_pursuit){
+	   			 $follower->id = $o_follower["id"];
 
-	   			 $pursuit->id = $o_pursuit["id"];
-	   			 $pursuit->longitude = $lon;
-	   			 $pursuit->latitude = $lat;
+	   			 $pursuit->id = $o_follower["id_creator"];
+	   			 $pursuit->find();
 
-				if ($pursuit->Save() !== null) {
-					$response["statut"] = array("succes"=>"true");
+				if ($pursuit !== null ) {
+					$lon = $pursuit->longitude;
+				 	$lat = $pursuit->latitude;
+
+					$response["statut"] = array("succes"=>"true", "lon"=>$lon, "lat",$lat);
 
 					header('Content-Type: application/json;charset=utf-8');
 					echo json_encode($response, JSON_FORCE_OBJECT | JSON_PRETTY_PRINT);
 				} else {
-					$response["statut"] = array("succes"=>"false","error"=>"sql update error");
+					$response["statut"] = array("succes"=>"false","error"=>"sql read error");
 					header('Content-Type: application/json;charset=utf-8');
 					echo json_encode($response, JSON_FORCE_OBJECT | JSON_PRETTY_PRINT);
 				}

@@ -6,16 +6,13 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.Color;
 import android.os.AsyncTask;
-import android.os.SystemClock;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 
-import android.location.LocationManager;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 import android.widget.Toast;
 
-import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -38,9 +35,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public class TestMap extends FragmentActivity implements OnMapReadyCallback {
+public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
 
     private GoogleMap mMap;
+    private String role;
 
     public static final String RECEIVE_JSON = "com.your.package.RECEIVE_JSON";
 
@@ -55,15 +53,16 @@ public class TestMap extends FragmentActivity implements OnMapReadyCallback {
         public void onReceive(Context context, Intent intent) {
             if(intent.getAction().equals(RECEIVE_JSON)) {
 
-               try{
-                   polyline.remove();
-               }
-               catch(Exception e){
-                    Log.d(TestMap.class.getName(), "Aucun polyline");
+                try{
+                    polyline.remove();
+                }
+                catch(Exception e){
+                    Log.d(MapsActivity.class.getName(), "Aucun polyline");
                 }
 
                 quelquepart.setPosition(new LatLng(malocalisation.latitude, malocalisation.longitude));
-                mMap.moveCamera(CameraUpdateFactory.newLatLng(quelquepart.getPosition()));
+                float zoomlevel = (float) 16.0;
+                mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(quelquepart.getPosition(), zoomlevel));
                 String url = getDirectionsUrl(new LatLng(malocalisation.latitude, malocalisation.longitude), dest);
 
                 DownloadTask downloadTask = new DownloadTask();
@@ -76,7 +75,7 @@ public class TestMap extends FragmentActivity implements OnMapReadyCallback {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_test_map);
+        setContentView(R.layout.activity_maps);
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
@@ -84,12 +83,27 @@ public class TestMap extends FragmentActivity implements OnMapReadyCallback {
         IntentFilter intentFilter = new IntentFilter();
         intentFilter.addAction(RECEIVE_JSON);
         bManager.registerReceiver(bReceiver, intentFilter);
-        malocalisation = new GetLocalisation(getApplicationContext());
 
-        Profile.setCurrentLong(malocalisation.getLongitude());
-        Profile.setCurrentLat(malocalisation.getLatitude());
+        role = getIntent().getExtras().getString("role");
 
-        Profile.sendGeol(this);
+        assert(role != null);
+        if(role.matches("creator")) {
+            malocalisation = new GetLocalisation(getApplicationContext());
+
+            ProfileHead.setCurrentLong(malocalisation.getLongitude());
+            ProfileHead.setCurrentLat(malocalisation.getLatitude());
+
+            ProfileHead.sendGeol(this);
+        }
+        else if(role.matches("follower")){
+            ProfilePack.getGeol(this);
+
+            double lon = ProfilePack.getMasterLong();
+            double lat = ProfilePack.getMasterLat();
+
+            dest = new LatLng(lat, lon);
+
+        }
     }
 
 
@@ -98,15 +112,19 @@ public class TestMap extends FragmentActivity implements OnMapReadyCallback {
         mMap = googleMap;
         //LatLng quelquepart = new LatLng(malocalisation.latitude, malocalisation.longitude);
         //LatLng ailleur = new LatLng(12.80, 3.50);
-       optionMarker = new MarkerOptions()
+        optionMarker = new MarkerOptions()
                 .position(new LatLng(malocalisation.latitude,malocalisation.longitude));
         quelquepart = mMap.addMarker(optionMarker);
         //mMap.addMarker(new MarkerOptions().position(quelquepart).title("Le beau marqueur"));
-       // mMap.addMarker(new MarkerOptions().position(ailleur).title("Le second marquer"));
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(quelquepart.getPosition()));
+        // mMap.addMarker(new MarkerOptions().position(ailleur).title("Le second marquer"));
+
+        //mMap.moveCamera(CameraUpdateFactory.newLatLng(quelquepart.getPosition()));
+        float zoomlevel = (float) 16.0;
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(quelquepart.getPosition(), zoomlevel));
 
         LatLng origin = new LatLng(malocalisation.latitude, malocalisation.longitude);
-        dest = new LatLng(12.80, 3.50);
+        dest = new LatLng(47.081734, 2.397469);
+        assert(dest != null);
         mMap.addMarker(new MarkerOptions().position(dest).title("Le second marquer"));
         String url = getDirectionsUrl(origin, dest);
 
@@ -130,7 +148,7 @@ public class TestMap extends FragmentActivity implements OnMapReadyCallback {
 
         String sensor = "sensor=false";
 
-        String parameters = str_origin + "&" + str_dest + "&" + sensor;
+        String parameters = str_origin + "&" + str_dest + "&" + sensor + "&mode=walking";
 
         String output = "json";
 
@@ -203,6 +221,7 @@ public class TestMap extends FragmentActivity implements OnMapReadyCallback {
 
                 // Starts parsing data
                 routes = parser.parse(jObject);
+
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -230,6 +249,7 @@ public class TestMap extends FragmentActivity implements OnMapReadyCallback {
 
                 // Fetching i-th route
                 List<HashMap<String, String>> path = result.get(i);
+
 
                 // Fetching all the points in i-th route
                 for (int j = 0; j < path.size(); j++) {

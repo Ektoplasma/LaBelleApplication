@@ -1,7 +1,6 @@
 <?php 
 
    require("Pursuit.class.php");
-   /*require("Reponse.class.php");*/
 	
    $pursuit  = new Pursuit();
    $response = array();
