@@ -9,4 +9,82 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.ektoplasma.valou.nevalost.JoinActivity">
 
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="textPersonName"
+        android:ems="10"
+        android:id="@+id/nom_poursuit"
+        android:hint="@string/hint_poursuit"
+        android:layout_below="@+id/viewPoursuit"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="@string/username"
+        android:id="@+id/viewUsername"
+        android:layout_marginTop="0dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/motdepasse"
+        android:hint="@string/hint_password"
+        android:inputType="textPassword"
+        android:layout_below="@+id/viewPw"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignRight="@+id/nom_poursuit"
+        android:layout_alignEnd="@+id/nom_poursuit"
+        android:password="false" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/valider"
+        android:id="@+id/validerpoursuite"
+        android:layout_below="@+id/motdepasse"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="88dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="@string/nom_poursuit"
+        android:id="@+id/viewPoursuit"
+        android:layout_marginTop="130dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="@string/nom_password"
+        android:id="@+id/viewPw"
+        android:layout_marginTop="61dp"
+        android:layout_below="@+id/nom_poursuit"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/username"
+        android:layout_below="@+id/viewUsername"
+        android:layout_alignRight="@+id/validerpoursuite"
+        android:layout_alignEnd="@+id/validerpoursuite"
+        android:inputType="text"
+        android:hint="@string/hint_username"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
 </RelativeLayout>
