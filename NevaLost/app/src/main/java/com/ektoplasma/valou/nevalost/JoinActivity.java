@@ -68,7 +68,7 @@ public class JoinActivity extends AppCompatActivity {
             }
         };
         //DataRequest requestor = new DataRequest(Request.Method.POST, "http://valou.ddns.net/join.php",params, reponseListener, errorListener);
-        DataRequest requestor = new DataRequest(Request.Method.POST, "http://"+ R.string.hostname_server +"/join.php",params, reponseListener, errorListener);
+        DataRequest requestor = new DataRequest(Request.Method.POST, "http://"+ getString(R.string.hostname_server) +"/join.php",params, reponseListener, errorListener);
 
         QueueSingleton.getInstance(this).addToRequestQueue(requestor);
         //Volley.newRequestQueue(this).add(requestor);
