@@ -82,7 +82,7 @@ public final class ProfileHead {
         };
 
         //DataRequest requestor = new DataRequest(Request.Method.POST, "http://valou.ddns.net/update.php",params, reponseListener, errorListener);
-        DataRequest requestor = new DataRequest(Request.Method.POST, "http://"+ R.string.hostname_server +"/update.php",params, reponseListener, errorListener);
+        DataRequest requestor = new DataRequest(Request.Method.POST, "http://"+ ctx.getResources().getString(R.string.hostname_server) +"/update.php",params, reponseListener, errorListener);
 
         QueueSingleton.getInstance(ctx).addToRequestQueue(requestor);
 
@@ -125,7 +125,7 @@ public final class ProfileHead {
             }
         };
         //DataRequest requestor = new DataRequest(Request.Method.POST, "http://valou.ddns.net/update.php",params, reponseListener, errorListener);
-        DataRequest requestor = new DataRequest(Request.Method.POST, "http://"+ R.string.hostname_server +"/update.php",params, reponseListener, errorListener);
+        DataRequest requestor = new DataRequest(Request.Method.POST, "http://"+ ctx.getResources().getString(R.string.hostname_server) +"/update.php" ,params, reponseListener, errorListener);
 
         QueueSingleton.getInstance(ctx).addToRequestQueue(requestor);
 
@@ -164,7 +164,7 @@ public final class ProfileHead {
             }
         };
         //DataRequest requestor = new DataRequest(Request.Method.POST, "http://valou.ddns.net/delete.php",params, reponseListener, errorListener);
-        DataRequest requestor = new DataRequest(Request.Method.POST, "http://"+ R.string.hostname_server +"/delete.php",params, reponseListener, errorListener);
+        DataRequest requestor = new DataRequest(Request.Method.POST, "http://"+ ctx.getResources().getString(R.string.hostname_server) +"/delete.php",params, reponseListener, errorListener);
 
         QueueSingleton.getInstance(ctx).addToRequestQueue(requestor);
     }

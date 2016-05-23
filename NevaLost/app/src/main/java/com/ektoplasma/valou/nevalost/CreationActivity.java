@@ -3,6 +3,7 @@ package com.ektoplasma.valou.nevalost;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -108,7 +109,7 @@ public class CreationActivity extends AppCompatActivity {
             }
         };
         //DataRequest requestor = new DataRequest(Request.Method.POST, "http://valou.ddns.net/create.php",params, reponseListener, errorListener);
-        DataRequest requestor = new DataRequest(Request.Method.POST, "http://"+ R.string.hostname_server +"/create.php",params, reponseListener, errorListener);
+        DataRequest requestor = new DataRequest(Request.Method.POST,  "http://"+ getString(R.string.hostname_server) +"/create.php" ,params, reponseListener, errorListener);
 
         QueueSingleton.getInstance(this).addToRequestQueue(requestor);
         //Volley.newRequestQueue(this).add(requestor);
