@@ -29,7 +29,7 @@
 					$lon = $pursuit->longitude;
 				 	$lat = $pursuit->latitude;
 
-					$response["statut"] = array("succes"=>"true", "lon"=>$lon, "lat",$lat);
+					$response["statut"] = array("succes"=>"true", "lon"=>$lon, "lat"=>$lat);
 
 					header('Content-Type: application/json;charset=utf-8');
 					echo json_encode($response, JSON_FORCE_OBJECT | JSON_PRETTY_PRINT);

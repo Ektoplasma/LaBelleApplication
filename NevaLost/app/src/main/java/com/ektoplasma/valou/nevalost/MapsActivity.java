@@ -34,19 +34,32 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
 
     private GoogleMap mMap;
     private String role;
+    private final Context mContext = this;
 
     public static final String RECEIVE_JSON = "com.your.package.RECEIVE_JSON";
 
     Marker quelquepart;
+    Marker ailleurs;
     MarkerOptions optionMarker;
     GetLocalisation malocalisation;
     LatLng dest;
     Polyline polyline;
+    Timer t;
+
+    public LatLng getDest() {
+        return dest;
+    }
+
+    public void setDest(LatLng dest) {
+        this.dest = dest;
+    }
 
     private BroadcastReceiver bReceiver = new BroadcastReceiver() {
         @Override
@@ -88,6 +101,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         assert(role != null);
         if(role.matches("creator")) {
+
+            ProfileHead.setCarry(true);
+
             malocalisation = new GetLocalisation(getApplicationContext());
 
             ProfileHead.setCurrentLong(malocalisation.getLongitude());
@@ -96,12 +112,36 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             ProfileHead.sendGeol(this);
         }
         else if(role.matches("follower")){
-            ProfilePack.getGeol(this);
 
-            double lon = ProfilePack.getMasterLong();
-            double lat = ProfilePack.getMasterLat();
+            ProfileHead.setCarry(false);
 
-            dest = new LatLng(lat, lon);
+            malocalisation = new GetLocalisation(getApplicationContext());
+
+            t = new Timer();
+            t.scheduleAtFixedRate(new TimerTask() {
+                @Override
+                public void run() {
+                    runOnUiThread(new Runnable()
+                    {
+                        public void run()
+                        {
+                            ProfilePack.getGeol(mContext);
+
+                            double lon = ProfilePack.getMasterLong();
+                            double lat = ProfilePack.getMasterLat();
+
+                            dest = new LatLng(lat, lon);
+
+                            if(ailleurs != null) ailleurs.setPosition(dest);
+                            String url = getDirectionsUrl(new LatLng(malocalisation.latitude, malocalisation.longitude), dest);
+
+                            DownloadTask downloadTask = new DownloadTask();
+
+                            downloadTask.execute(url);
+                        }
+                    });
+                }
+            }, 0, 10000);
 
         }
     }
@@ -125,7 +165,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         LatLng origin = new LatLng(malocalisation.latitude, malocalisation.longitude);
         dest = new LatLng(47.081734, 2.397469);
         assert(dest != null);
-        mMap.addMarker(new MarkerOptions().position(dest).title("Le second marquer"));
+        ailleurs = mMap.addMarker(new MarkerOptions().position(dest).title("Le second marquer"));
         String url = getDirectionsUrl(origin, dest);
 
         DownloadTask downloadTask = new DownloadTask();

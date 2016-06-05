@@ -21,6 +21,7 @@ public final class ProfileHead {
     private static String cookieInstance;
     private static double currentLong;
     private static double currentLat;
+    private static boolean carry;
 
 
     /*On pourra rajouter d'autres informations comme la geol initiale, un avatar, etc...*/
@@ -44,6 +45,10 @@ public final class ProfileHead {
     public static double getCurrentLat() { return currentLat; }
 
     public static void setCurrentLat(double currentLat) { ProfileHead.currentLat = currentLat; }
+
+    public static boolean isCarry() { return carry; }
+
+    public static void setCarry(boolean carry) { ProfileHead.carry = carry; }
 
     public static void sendGeol(Context ctx){
 

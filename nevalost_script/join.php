@@ -25,7 +25,7 @@
 
                      $pursuit->id = $o_pursuit["id"];
 
-                     if (password_verify($mdp, $pursuit->password)) {
+                     if (password_verify($mdp, $o_pursuit["password"])) {
 
                               $once = true;
                               
