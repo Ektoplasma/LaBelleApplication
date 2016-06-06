@@ -132,6 +132,13 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
                             dest = new LatLng(lat, lon);
 
+                            try{
+                                polyline.remove();
+                            }
+                            catch(Exception e){
+                                Log.d(MapsActivity.class.getName(), "Aucun polyline");
+                            }
+
                             if(ailleurs != null) ailleurs.setPosition(dest);
                             String url = getDirectionsUrl(new LatLng(malocalisation.latitude, malocalisation.longitude), dest);
 
