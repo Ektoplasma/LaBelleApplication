@@ -191,7 +191,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                         .zoom(16)
                         .build()));*/
 
-        LatLng origin = new LatLng(malocalisation.getLatitude(), malocalisation.getLongitude());
+        //LatLng origin = new LatLng(malocalisation.getLatitude(), malocalisation.getLongitude());
+        LatLng origin = new LatLng(47.079667, 2.399401);
         dest = new LatLng(47.081734, 2.397469);
         assert(dest != null);
         ailleurs = mMap.addMarker(new MarkerOptions().position(dest).title("Le second marquer"));
