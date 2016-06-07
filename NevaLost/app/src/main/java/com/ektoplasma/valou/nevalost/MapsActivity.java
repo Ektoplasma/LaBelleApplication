@@ -13,10 +13,12 @@ import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -73,7 +75,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     Log.d(MapsActivity.class.getName(), "Aucun polyline");
                 }
 
-                quelquepart.setPosition(new LatLng(malocalisation.latitude, malocalisation.longitude));
+                quelquepart.setPosition(new LatLng(malocalisation.getLatitude(), malocalisation.getLongitude()));
                 float zoomlevel = (float) 16.0;
                 mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(quelquepart.getPosition(), zoomlevel));
                 String url = getDirectionsUrl(new LatLng(malocalisation.latitude, malocalisation.longitude), dest);
@@ -157,19 +159,39 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
-        //LatLng quelquepart = new LatLng(malocalisation.latitude, malocalisation.longitude);
-        //LatLng ailleur = new LatLng(12.80, 3.50);
+
         optionMarker = new MarkerOptions()
-                .position(new LatLng(malocalisation.latitude,malocalisation.longitude));
+               // .position(new LatLng(malocalisation.getLatitude(),malocalisation.getLongitude()))
+                .position(new LatLng(47.079667, 2.399401))
+                .title("Le beau marqueur");
         quelquepart = mMap.addMarker(optionMarker);
+       // LatLng quelquepart = new LatLng(malocalisation.getLatitude(),malocalisation.getLongitude());
         //mMap.addMarker(new MarkerOptions().position(quelquepart).title("Le beau marqueur"));
         // mMap.addMarker(new MarkerOptions().position(ailleur).title("Le second marquer"));
 
         //mMap.moveCamera(CameraUpdateFactory.newLatLng(quelquepart.getPosition()));
-        float zoomlevel = (float) 16.0;
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(quelquepart.getPosition(), zoomlevel));
+        //float zoomlevel = (float) 16.0;
+        //mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(quelquepart.getPosition(), zoomlevel));
+       // LatLng coordinate = new LatLng(malocalisation.getLatitude(),malocalisation.getLongitude());
+        LatLng coordinate = new LatLng(47.079667, 2.399401);
+        /*CameraUpdate location = CameraUpdateFactory
+                .newLatLngZoom(coordinate, 20);*/
+        CameraPosition location = new CameraPosition.Builder()
+                .target(coordinate)
+                .zoom(20)
+                .bearing(90)
+                .tilt(45)
+                .build();
+        mMap.animateCamera(CameraUpdateFactory.newCameraPosition(location));
+        Log.d(MapsActivity.class.getName(), "Latitudemap -> " + malocalisation.getLatitude());
+        Log.d(MapsActivity.class.getName(), "Longitudemap -> " + malocalisation.getLongitude());
+        /*mMap.animateCamera(CameraUpdateFactory.newCameraPosition(
+                new CameraPosition.Builder()
+                        .tilt(45)
+                        .zoom(16)
+                        .build()));*/
 
-        LatLng origin = new LatLng(malocalisation.latitude, malocalisation.longitude);
+        LatLng origin = new LatLng(malocalisation.getLatitude(), malocalisation.getLongitude());
         dest = new LatLng(47.081734, 2.397469);
         assert(dest != null);
         ailleurs = mMap.addMarker(new MarkerOptions().position(dest).title("Le second marquer"));
