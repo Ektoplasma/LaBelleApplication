@@ -38,6 +38,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.concurrent.Semaphore;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
 
@@ -78,11 +79,13 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 quelquepart.setPosition(new LatLng(malocalisation.getLatitude(), malocalisation.getLongitude()));
                 float zoomlevel = (float) 16.0;
                 mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(quelquepart.getPosition(), zoomlevel));
-                String url = getDirectionsUrl(new LatLng(malocalisation.latitude, malocalisation.longitude), dest);
+                if(role.matches("follower")){
+                    String url = getDirectionsUrl(new LatLng(malocalisation.getLatitude(), malocalisation.getLongitude()), dest);
 
-                DownloadTask downloadTask = new DownloadTask();
+                    DownloadTask downloadTask = new DownloadTask();
 
-                downloadTask.execute(url);
+                    downloadTask.execute(url);
+                }
 
             }
         }
@@ -129,6 +132,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                         {
                             ProfilePack.getGeol(mContext);
 
+
                             double lon = ProfilePack.getMasterLong();
                             double lat = ProfilePack.getMasterLat();
 
@@ -142,7 +146,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                             }
 
                             if(ailleurs != null) ailleurs.setPosition(dest);
-                            String url = getDirectionsUrl(new LatLng(malocalisation.latitude, malocalisation.longitude), dest);
+                            String url = getDirectionsUrl(new LatLng(malocalisation.getLatitude(), malocalisation.getLongitude()), dest);
 
                             DownloadTask downloadTask = new DownloadTask();
 
@@ -161,8 +165,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mMap = googleMap;
 
         optionMarker = new MarkerOptions()
-               // .position(new LatLng(malocalisation.getLatitude(),malocalisation.getLongitude()))
-                .position(new LatLng(47.079667, 2.399401))
+                .position(new LatLng(malocalisation.getLatitude(),malocalisation.getLongitude()))
+               // .position(new LatLng(47.079667, 2.399401))
                 .title("Le beau marqueur");
         quelquepart = mMap.addMarker(optionMarker);
        // LatLng quelquepart = new LatLng(malocalisation.getLatitude(),malocalisation.getLongitude());
@@ -172,13 +176,13 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         //mMap.moveCamera(CameraUpdateFactory.newLatLng(quelquepart.getPosition()));
         //float zoomlevel = (float) 16.0;
         //mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(quelquepart.getPosition(), zoomlevel));
-       // LatLng coordinate = new LatLng(malocalisation.getLatitude(),malocalisation.getLongitude());
-        LatLng coordinate = new LatLng(47.079667, 2.399401);
+        LatLng coordinate = new LatLng(malocalisation.getLatitude(),malocalisation.getLongitude());
+        //LatLng coordinate = new LatLng(47.079667, 2.399401);
         /*CameraUpdate location = CameraUpdateFactory
                 .newLatLngZoom(coordinate, 20);*/
         CameraPosition location = new CameraPosition.Builder()
                 .target(coordinate)
-                .zoom(20)
+                .zoom(5)
                 .bearing(90)
                 .tilt(45)
                 .build();
@@ -191,16 +195,21 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                         .zoom(16)
                         .build()));*/
 
-        //LatLng origin = new LatLng(malocalisation.getLatitude(), malocalisation.getLongitude());
-        LatLng origin = new LatLng(47.079667, 2.399401);
-        dest = new LatLng(47.081734, 2.397469);
-        assert(dest != null);
-        ailleurs = mMap.addMarker(new MarkerOptions().position(dest).title("Le second marquer"));
-        String url = getDirectionsUrl(origin, dest);
+        LatLng origin = new LatLng(malocalisation.getLatitude(), malocalisation.getLongitude());
+        //LatLng origin = new LatLng(47.079667, 2.399401);
+        if(role.matches("follower")) {
 
-        DownloadTask downloadTask = new DownloadTask();
+            dest = new LatLng(malocalisation.getLatitude(), malocalisation.getLongitude());
+            assert (dest != null);
+            ailleurs = mMap.addMarker(new MarkerOptions().position(dest).title("Le second marquer"));
+            String url = getDirectionsUrl(origin, dest);
 
-        downloadTask.execute(url);
+            DownloadTask downloadTask = new DownloadTask();
+
+            downloadTask.execute(url);
+
+
+        }
 
     }
 
