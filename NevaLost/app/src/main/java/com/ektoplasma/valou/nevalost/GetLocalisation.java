@@ -7,6 +7,7 @@ import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.hardware.GeomagneticField;
 import android.location.Location;
 import android.location.LocationListener;
 import android.app.Service;
@@ -302,6 +303,17 @@ public class GetLocalisation extends Service implements LocationListener {
         String jsonString = i.getStringExtra("query");
         Intent RTReturn = new Intent(MapsActivity.RECEIVE_JSON);
         RTReturn.putExtra("json", jsonString);
+
+        GeomagneticField field = new GeomagneticField(
+                (float)location.getLatitude(),
+                (float)location.getLongitude(),
+                (float)location.getAltitude(),
+                System.currentTimeMillis()
+        );
+        SensorClass var = new SensorClass();
+        // getDeclination returns degrees
+        var.setmDeclination(field.getDeclination());
+
         LocalBroadcastManager.getInstance(this).sendBroadcast(RTReturn);
     }
 
@@ -321,4 +333,5 @@ public class GetLocalisation extends Service implements LocationListener {
     public IBinder onBind(Intent intent) {
         return null;
     }
-}
+
+    }

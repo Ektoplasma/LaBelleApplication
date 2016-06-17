@@ -5,6 +5,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.Color;
+import android.hardware.Sensor;
+import android.hardware.SensorEvent;
+import android.hardware.SensorManager;
 import android.os.AsyncTask;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
@@ -189,11 +192,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mMap.animateCamera(CameraUpdateFactory.newCameraPosition(location));
         Log.d(MapsActivity.class.getName(), "Latitudemap -> " + malocalisation.getLatitude());
         Log.d(MapsActivity.class.getName(), "Longitudemap -> " + malocalisation.getLongitude());
-        /*mMap.animateCamera(CameraUpdateFactory.newCameraPosition(
-                new CameraPosition.Builder()
-                        .tilt(45)
-                        .zoom(16)
-                        .build()));*/
 
         LatLng origin = new LatLng(malocalisation.getLatitude(), malocalisation.getLongitude());
         //LatLng origin = new LatLng(47.079667, 2.399401);
@@ -391,4 +389,12 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             parserTask.execute(result);
         }
     }
+
+    public void updateCamera(float bearing) {
+        CameraPosition oldPos = mMap.getCameraPosition();
+
+        CameraPosition pos = CameraPosition.builder(oldPos).bearing(bearing).build();
+        mMap.moveCamera(CameraUpdateFactory.newCameraPosition(pos));
+    }
+
 }
