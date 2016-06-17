@@ -11,15 +11,8 @@ import android.hardware.SensorManager;
  */
 public class SensorClass implements SensorEventListener {
 
-    private SensorManager mSensorManager;
-    private Sensor mLight;
     private float mDeclination;
     private float[] mRotationMatrix = new float[16];
-
-   /* public SensorClass(Context context){
-        mSensorManager = (SensorManager) context.getSystemService(Context.SENSOR_SERVICE);
-        mLight = mSensorManager.getDefaultSensor(Sensor.TYPE_LIGHT);
-    }*/
 
     public float getmDeclination(){
         return mDeclination;
@@ -48,8 +41,7 @@ public class SensorClass implements SensorEventListener {
                     mRotationMatrix , event.values);
             float[] orientation = new float[3];
             SensorManager.getOrientation(mRotationMatrix, orientation);
-            //float bearing = Math.toDegrees(orientation[0]) + mDeclination;
-            float bearing = Math.toDegrees(orientation[0]) + mDeclination;
+            float bearing = Math.toDegrees(orientation[0]) + mDeclination;//Math.toDegrees retourne un double et je ne sais pas trop comment caster ça
             MapsActivity labellemap = new MapsActivity();
             labellemap.updateCamera(bearing);
         }

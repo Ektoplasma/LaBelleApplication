@@ -311,7 +311,7 @@ public class GetLocalisation extends Service implements LocationListener {
                 System.currentTimeMillis()
         );
         SensorClass var = new SensorClass();
-        // getDeclination returns degrees
+
         var.setmDeclination(field.getDeclination());
 
         LocalBroadcastManager.getInstance(this).sendBroadcast(RTReturn);
