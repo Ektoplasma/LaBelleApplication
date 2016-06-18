@@ -71,7 +71,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         @Override
         public void onReceive(Context context, Intent intent) {
             if(intent.getAction().equals(RECEIVE_JSON)) {
-                System.out.println("yoyoyoyoyo");
+
                 try{
                     polyline.remove();
                 }
@@ -104,6 +104,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         IntentFilter intentFilter = new IntentFilter();
         intentFilter.addAction(RECEIVE_JSON);
         bManager.registerReceiver(bReceiver, intentFilter);
+        malocalisation = new GetLocalisation(getApplicationContext());
 
         role = getIntent().getExtras().getString("role");
 
@@ -111,8 +112,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         if(role.matches("creator")) {
 
             ProfileHead.setCarry(true);
-
-            malocalisation = new GetLocalisation(getApplicationContext());
 
             ProfileHead.setCurrentLong(malocalisation.getLongitude());
             ProfileHead.setCurrentLat(malocalisation.getLatitude());
@@ -122,8 +121,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         else if(role.matches("follower")){
 
             ProfileHead.setCarry(false);
-
-            malocalisation = new GetLocalisation(getApplicationContext());
 
             t = new Timer();
             t.scheduleAtFixedRate(new TimerTask() {
@@ -185,7 +182,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 .newLatLngZoom(coordinate, 20);*/
         CameraPosition location = new CameraPosition.Builder()
                 .target(coordinate)
-                .zoom(5)
+                .zoom(20)
                 .bearing(90)
                 .tilt(45)
                 .build();

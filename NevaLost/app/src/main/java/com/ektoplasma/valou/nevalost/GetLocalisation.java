@@ -293,12 +293,14 @@ public class GetLocalisation extends Service implements LocationListener {
 
     @Override
     public void onLocationChanged(Location location) {
+        this.location = location;
         latitude = location.getLatitude();
         longitude = location.getLongitude();
+
         if (ProfileHead.isCarry()) {
             ProfileHead.sendGeol(longitude, latitude, mContext);
         }
-        Intent i = new Intent(GetLocalisation.LOCATION_SERVICE);
+        Intent i = new Intent(LOCATION_SERVICE);
         System.out.println("intent Received");
         System.out.println(i.getDataString());
         String jsonString = i.getStringExtra("query");
