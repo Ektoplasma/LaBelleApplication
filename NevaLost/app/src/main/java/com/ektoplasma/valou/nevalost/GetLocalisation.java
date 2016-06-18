@@ -300,6 +300,7 @@ public class GetLocalisation extends Service implements LocationListener {
         }
         Intent i = new Intent(GetLocalisation.LOCATION_SERVICE);
         System.out.println("intent Received");
+        System.out.println(i.getDataString());
         String jsonString = i.getStringExtra("query");
         Intent RTReturn = new Intent(MapsActivity.RECEIVE_JSON);
         RTReturn.putExtra("json", jsonString);

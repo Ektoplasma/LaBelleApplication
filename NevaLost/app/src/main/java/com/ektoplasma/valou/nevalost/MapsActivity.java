@@ -71,7 +71,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         @Override
         public void onReceive(Context context, Intent intent) {
             if(intent.getAction().equals(RECEIVE_JSON)) {
-
+                System.out.println("yoyoyoyoyo");
                 try{
                     polyline.remove();
                 }
