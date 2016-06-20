@@ -21,12 +21,6 @@ public class DataRequest extends Request<JSONObject> {
     private Response.Listener<JSONObject> listener;
     private Map<String, String> params;
 
-    public DataRequest(String url, Map<String, String> params, Response.Listener<JSONObject> responseListener, Response.ErrorListener errorListener) {
-        super(Method.GET, url, errorListener);
-        this.listener = responseListener;
-        this.params = params;
-    }
-
     public DataRequest(int method, String url, Map<String, String> params, Response.Listener<JSONObject> reponseListener, Response.ErrorListener errorListener) {
         super(method, url, errorListener);
         this.listener = reponseListener;

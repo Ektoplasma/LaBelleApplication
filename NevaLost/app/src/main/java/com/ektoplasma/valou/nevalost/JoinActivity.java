@@ -85,8 +85,7 @@ public class JoinActivity extends AppCompatActivity {
                         String cookie = jsonResponse.getString("cookie");
                         System.out.println("Cookie: "+cookie);
                         ProfilePack.setCookieInstance(cookie);
-                        Intent mapIntent = new Intent(JoinActivity.this, MapsActivity.class);
-                        mapIntent.putExtra("role","follower");
+                        Intent mapIntent = new Intent(JoinActivity.this, FollowerMapsActivity.class);
                         startActivity(mapIntent);
                     }
                     else{

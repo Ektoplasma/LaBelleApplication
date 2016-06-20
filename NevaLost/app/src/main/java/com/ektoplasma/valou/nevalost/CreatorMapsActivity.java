@@ -5,18 +5,13 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.Color;
-import android.hardware.Sensor;
-import android.hardware.SensorEvent;
-import android.hardware.SensorManager;
 import android.os.AsyncTask;
-import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
-
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 import android.widget.Toast;
 
-import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -40,13 +35,13 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Timer;
-import java.util.TimerTask;
-import java.util.concurrent.Semaphore;
 
-public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
+/**
+ * Created by ektoplasma on 20/06/16.
+ */
+public class CreatorMapsActivity extends FragmentActivity implements OnMapReadyCallback {
 
     private GoogleMap mMap;
-    private String role;
     private final Context mContext = this;
 
     public static final String RECEIVE_JSON = "com.your.package.RECEIVE_JSON";
@@ -59,13 +54,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     Polyline polyline;
     Timer t;
 
-    public LatLng getDest() {
-        return dest;
-    }
-
-    public void setDest(LatLng dest) {
-        this.dest = dest;
-    }
 
     private BroadcastReceiver bReceiver = new BroadcastReceiver() {
         @Override
@@ -76,19 +64,12 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     polyline.remove();
                 }
                 catch(Exception e){
-                    Log.d(MapsActivity.class.getName(), "Aucun polyline");
+                    Log.d(CreatorMapsActivity.class.getName(), "Aucun polyline");
                 }
 
                 quelquepart.setPosition(new LatLng(malocalisation.getLatitude(), malocalisation.getLongitude()));
                 float zoomlevel = (float) 16.0;
                 mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(quelquepart.getPosition(), zoomlevel));
-                if(role.matches("follower")){
-                    String url = getDirectionsUrl(new LatLng(malocalisation.getLatitude(), malocalisation.getLongitude()), dest);
-
-                    DownloadTask downloadTask = new DownloadTask();
-
-                    downloadTask.execute(url);
-                }
 
             }
         }
@@ -96,7 +77,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_maps);
+        setContentView(R.layout.activity_creator_maps);
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
@@ -106,57 +87,12 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         bManager.registerReceiver(bReceiver, intentFilter);
         malocalisation = new GetLocalisation(getApplicationContext());
 
-        role = getIntent().getExtras().getString("role");
+        ProfileHead.setCarry(true);
 
-        assert(role != null);
-        if(role.matches("creator")) {
+        ProfileHead.setCurrentLong(malocalisation.getLongitude());
+        ProfileHead.setCurrentLat(malocalisation.getLatitude());
 
-            ProfileHead.setCarry(true);
-
-            ProfileHead.setCurrentLong(malocalisation.getLongitude());
-            ProfileHead.setCurrentLat(malocalisation.getLatitude());
-
-            ProfileHead.sendGeol(this);
-        }
-        else if(role.matches("follower")){
-
-            ProfileHead.setCarry(false);
-
-            t = new Timer();
-            t.scheduleAtFixedRate(new TimerTask() {
-                @Override
-                public void run() {
-                    runOnUiThread(new Runnable()
-                    {
-                        public void run()
-                        {
-                            ProfilePack.getGeol(mContext);
-
-
-                            double lon = ProfilePack.getMasterLong();
-                            double lat = ProfilePack.getMasterLat();
-
-                            dest = new LatLng(lat, lon);
-
-                            try{
-                                polyline.remove();
-                            }
-                            catch(Exception e){
-                                Log.d(MapsActivity.class.getName(), "Aucun polyline");
-                            }
-
-                            if(ailleurs != null) ailleurs.setPosition(dest);
-                            String url = getDirectionsUrl(new LatLng(malocalisation.getLatitude(), malocalisation.getLongitude()), dest);
-
-                            DownloadTask downloadTask = new DownloadTask();
-
-                            downloadTask.execute(url);
-                        }
-                    });
-                }
-            }, 0, 10000);
-
-        }
+        ProfileHead.sendGeol(this);
     }
 
 
@@ -166,10 +102,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         optionMarker = new MarkerOptions()
                 .position(new LatLng(malocalisation.getLatitude(),malocalisation.getLongitude()))
-               // .position(new LatLng(47.079667, 2.399401))
+                // .position(new LatLng(47.079667, 2.399401))
                 .title("Le beau marqueur");
         quelquepart = mMap.addMarker(optionMarker);
-       // LatLng quelquepart = new LatLng(malocalisation.getLatitude(),malocalisation.getLongitude());
+        // LatLng quelquepart = new LatLng(malocalisation.getLatitude(),malocalisation.getLongitude());
         //mMap.addMarker(new MarkerOptions().position(quelquepart).title("Le beau marqueur"));
         // mMap.addMarker(new MarkerOptions().position(ailleur).title("Le second marquer"));
 
@@ -187,38 +123,24 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 .tilt(45)
                 .build();
         mMap.animateCamera(CameraUpdateFactory.newCameraPosition(location));
-        Log.d(MapsActivity.class.getName(), "Latitudemap -> " + malocalisation.getLatitude());
-        Log.d(MapsActivity.class.getName(), "Longitudemap -> " + malocalisation.getLongitude());
+        Log.d(CreatorMapsActivity.class.getName(), "Latitudemap -> " + malocalisation.getLatitude());
+        Log.d(CreatorMapsActivity.class.getName(), "Longitudemap -> " + malocalisation.getLongitude());
 
         LatLng origin = new LatLng(malocalisation.getLatitude(), malocalisation.getLongitude());
-        //LatLng origin = new LatLng(47.079667, 2.399401);
-        if(role.matches("follower")) {
-
-            dest = new LatLng(malocalisation.getLatitude(), malocalisation.getLongitude());
-            assert (dest != null);
-            ailleurs = mMap.addMarker(new MarkerOptions().position(dest).title("Le second marquer"));
-            String url = getDirectionsUrl(origin, dest);
-
-            DownloadTask downloadTask = new DownloadTask();
-
-            downloadTask.execute(url);
-
-
-        }
 
     }
 
     /**********************************************************
      * Permet de récupérer l'itinéraire GoogleMap
-     * @param origin
-     * @param dest
-     * @return
+     * @param p_origin
+     * @param p_dest
+     * @return url
      */
-    private String getDirectionsUrl(LatLng origin, LatLng dest) {
+    private String getDirectionsUrl(LatLng p_origin, LatLng p_dest) {
 
-        String str_origin = "origin=" + origin.latitude + "," + origin.longitude;
+        String str_origin = "origin=" + p_origin.latitude + "," + p_origin.longitude;
 
-        String str_dest = "destination=" + dest.latitude + "," + dest.longitude;
+        String str_dest = "destination=" + p_dest.latitude + "," + p_dest.longitude;
 
         String sensor = "sensor=false";
 
@@ -226,9 +148,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         String output = "json";
 
-        String url = "https://maps.googleapis.com/maps/api/directions/" + output + "?" + parameters;
-
-        return url;
+        return "https://maps.googleapis.com/maps/api/directions/" + output + "?" + parameters;
     }
 
     /**********************************************************
@@ -256,9 +176,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
             BufferedReader br = new BufferedReader(new InputStreamReader(iStream));
 
-            StringBuffer sb = new StringBuffer();
+            StringBuilder sb = new StringBuilder();
 
-            String line = "";
+            String line;
             while ((line = br.readLine()) != null) {
                 sb.append(line);
             }
@@ -270,6 +190,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         } catch (Exception e) {
             Log.d("Downloading url", e.toString());
         } finally {
+            assert iStream != null;
             iStream.close();
             urlConnection.disconnect();
         }
@@ -318,7 +239,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
             // Traversing through all the routes
             for (int i = 0; i < result.size(); i++) {
-                points = new ArrayList<LatLng>();
+                points = new ArrayList<>();
                 lineOptions = new PolylineOptions();
 
                 // Fetching i-th route
@@ -393,5 +314,4 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         CameraPosition pos = CameraPosition.builder(oldPos).bearing(bearing).build();
         mMap.moveCamera(CameraUpdateFactory.newCameraPosition(pos));
     }
-
 }

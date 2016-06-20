@@ -1,9 +1,8 @@
 package com.ektoplasma.valou.nevalost;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -53,9 +52,6 @@ public class CreationActivity extends AppCompatActivity {
                         }
                         else
                         {
-                           //lancement poursuite et vu des autres participants
-                            //GetLocalisation malocalisation = new GetLocalisation(getApplicationContext());
-                            //Toast.makeText(getApplicationContext(), String.valueOf(malocalisation.latitude), Toast.LENGTH_SHORT).show();
                             requestInstance(checkuser, checkpursuit, checkmdp);
                         }
                 }
@@ -87,8 +83,7 @@ public class CreationActivity extends AppCompatActivity {
                         String cookie = jsonResponse.getString("cookie");
                         System.out.println("Cookie: "+cookie);
                         ProfileHead.setCookieInstance(cookie);
-                        Intent mapIntent = new Intent(CreationActivity.this, MapsActivity.class);
-                        mapIntent.putExtra("role","creator");
+                        Intent mapIntent = new Intent(CreationActivity.this, CreatorMapsActivity.class);
                         startActivity(mapIntent);
                     }
                     else{
@@ -108,10 +103,9 @@ public class CreationActivity extends AppCompatActivity {
                 error.printStackTrace();
             }
         };
-        //DataRequest requestor = new DataRequest(Request.Method.POST, "http://valou.ddns.net/create.php",params, reponseListener, errorListener);
+
         DataRequest requestor = new DataRequest(Request.Method.POST,  "http://"+ getString(R.string.hostname_server) +"/create.php" ,params, reponseListener, errorListener);
 
         QueueSingleton.getInstance(this).addToRequestQueue(requestor);
-        //Volley.newRequestQueue(this).add(requestor);
     }
 }

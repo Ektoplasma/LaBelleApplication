@@ -52,7 +52,7 @@ public class GetLocalisation extends Service implements LocationListener {
     private static final long MIN_DISTANCE_CHANGE_FOR_UPDATES = 10; // 10 meters
 
     // The minimum time between updates in milliseconds
-    private static final long MIN_TIME_BW_UPDATES = 1000 * 1; // 1 minute
+    private static final long MIN_TIME_BW_UPDATES = 1000; // 1 minute
 
     // Declaring a Location Manager
     protected LocationManager locationManager;
@@ -163,7 +163,7 @@ public class GetLocalisation extends Service implements LocationListener {
 
     /**
      * GPSTracker longitude getter and setter
-     * @return
+     * @return longitude
      */
     public double getLongitude() {
         if (location != null) {
@@ -211,9 +211,8 @@ public class GetLocalisation extends Service implements LocationListener {
                  * Geocoder.getFromLocation - Returns an array of Addresses
                  * that are known to describe the area immediately surrounding the given latitude and longitude.
                  */
-                List<Address> addresses = geocoder.getFromLocation(latitude, longitude, this.geocoderMaxResults);
 
-                return addresses;
+                return geocoder.getFromLocation(latitude, longitude, this.geocoderMaxResults);
             } catch (IOException e) {
                 //e.printStackTrace();
                 Log.e(TAG, "Impossible to connect to Geocoder", e);
@@ -232,9 +231,8 @@ public class GetLocalisation extends Service implements LocationListener {
 
         if (addresses != null && addresses.size() > 0) {
             Address address = addresses.get(0);
-            String addressLine = address.getAddressLine(0);
 
-            return addressLine;
+            return address.getAddressLine(0);
         } else {
             return null;
         }
@@ -249,9 +247,8 @@ public class GetLocalisation extends Service implements LocationListener {
 
         if (addresses != null && addresses.size() > 0) {
             Address address = addresses.get(0);
-            String locality = address.getLocality();
 
-            return locality;
+            return address.getLocality();
         }
         else {
             return null;
@@ -267,9 +264,8 @@ public class GetLocalisation extends Service implements LocationListener {
 
         if (addresses != null && addresses.size() > 0) {
             Address address = addresses.get(0);
-            String postalCode = address.getPostalCode();
 
-            return postalCode;
+            return address.getPostalCode();
         } else {
             return null;
         }
@@ -283,9 +279,8 @@ public class GetLocalisation extends Service implements LocationListener {
         List<Address> addresses = getGeocoderAddress(context);
         if (addresses != null && addresses.size() > 0) {
             Address address = addresses.get(0);
-            String countryName = address.getCountryName();
 
-            return countryName;
+            return address.getCountryName();
         } else {
             return null;
         }
@@ -297,14 +292,20 @@ public class GetLocalisation extends Service implements LocationListener {
         latitude = location.getLatitude();
         longitude = location.getLongitude();
 
-        if (ProfileHead.isCarry()) {
-            ProfileHead.sendGeol(longitude, latitude, mContext);
-        }
         Intent i = new Intent(LOCATION_SERVICE);
         System.out.println("intent Received");
         System.out.println(i.getDataString());
         String jsonString = i.getStringExtra("query");
-        Intent RTReturn = new Intent(MapsActivity.RECEIVE_JSON);
+
+        Intent RTReturn;
+
+        if (ProfileHead.isCarry()) {
+            ProfileHead.sendGeol(longitude, latitude, mContext);
+            RTReturn = new Intent(CreatorMapsActivity.RECEIVE_JSON);
+        }
+        else{
+            RTReturn = new Intent(FollowerMapsActivity.RECEIVE_JSON);
+        }
         RTReturn.putExtra("json", jsonString);
 
         GeomagneticField field = new GeomagneticField(

@@ -21,7 +21,7 @@ public final class ProfileHead {
     private static String cookieInstance;
     private static double currentLong;
     private static double currentLat;
-    private static boolean carry;
+    private static boolean carry = false;
 
 
     /*On pourra rajouter d'autres informations comme la geol initiale, un avatar, etc...*/
