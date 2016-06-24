@@ -1,15 +1,21 @@
 package com.ektoplasma.valou.nevalost;
 
+import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.Color;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -54,6 +60,7 @@ public class CreatorMapsActivity extends FragmentActivity implements OnMapReadyC
     Polyline polyline;
     Timer t;
 
+    Button buttonDelete;
 
     private BroadcastReceiver bReceiver = new BroadcastReceiver() {
         @Override
@@ -77,7 +84,11 @@ public class CreatorMapsActivity extends FragmentActivity implements OnMapReadyC
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_creator_maps);
+        buttonDelete = (Button)findViewById(R.id.delete_button);
+        buttonDelete.setOnClickListener(killit);
+
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
@@ -95,6 +106,32 @@ public class CreatorMapsActivity extends FragmentActivity implements OnMapReadyC
         ProfileHead.sendGeol(this);
     }
 
+    private View.OnClickListener killit = new View.OnClickListener(){
+        public void onClick(View v)
+        {
+            ProfileHead.deletePursuit(mContext);
+
+            AlertDialog.Builder alertDialog= new AlertDialog.Builder(mContext);
+            alertDialog.setTitle("Are you sure you want to stop the pursuit ?");
+            alertDialog.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+                        finishAffinity();
+                    }
+                }
+            });
+            alertDialog.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+
+                }
+            });
+            alertDialog.show();
+        }
+    };
 
     @Override
     public void onMapReady(GoogleMap googleMap) {

@@ -144,7 +144,6 @@ public final class ProfileHead {
             @Override
             public void onResponse(JSONObject response) {
                 try {
-                    //JSONObject jsonResponse = response.getJSONObject("form");
                     JSONObject jsonResponse = response.getJSONObject("statut");
                     String succes = jsonResponse.getString("succes");
 
@@ -167,7 +166,7 @@ public final class ProfileHead {
                 error.printStackTrace();
             }
         };
-        //DataRequest requestor = new DataRequest(Request.Method.POST, "http://valou.ddns.net/delete.php",params, reponseListener, errorListener);
+
         DataRequest requestor = new DataRequest(Request.Method.POST, "http://"+ ctx.getResources().getString(R.string.hostname_server) +"/delete.php",params, reponseListener, errorListener);
 
         QueueSingleton.getInstance(ctx).addToRequestQueue(requestor);
