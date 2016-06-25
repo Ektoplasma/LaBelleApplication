@@ -8,6 +8,15 @@
          location permissions for the 'MyLocation' functionality. 
     -->
 
+
+    <!--Autorisation-->
+
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_GPS" />
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -36,14 +45,6 @@
         <activity android:name=".CreationActivity" />
         <activity android:name=".JoinActivity" />
         <activity android:name=".SettingsActivity" />
-
-        <!--Autorisation-->
-
-        <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-        <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-        <uses-permission android:name="android.permission.ACCESS_LOCATION" />
-        <uses-permission android:name="android.permission.ACCESS_GPS" />
-
 
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
