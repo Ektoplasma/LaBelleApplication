@@ -297,6 +297,9 @@ public class GetLocalisation extends Service implements LocationListener {
         System.out.println(i.getDataString());
         String jsonString = i.getStringExtra("query");
 
+        Log.d(TAG, " Bonjour bonjour Latitude : "+latitude+" Longitude : "+longitude);
+
+
         Intent RTReturn;
 
         if (ProfileHead.isCarry()) {
