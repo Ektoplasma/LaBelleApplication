@@ -1,7 +1,6 @@
 package com.ektoplasma.valou.nevalost;
 
 import android.app.AlertDialog;
-import android.app.Dialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -52,7 +51,7 @@ public class CreatorMapsActivity extends FragmentActivity implements OnMapReadyC
 
     public static final String RECEIVE_JSON = "com.your.package.RECEIVE_JSON";
 
-    Marker quelquepart;
+    Marker itself;
     Marker ailleurs;
     MarkerOptions optionMarker;
     GetLocalisation malocalisation;
@@ -74,9 +73,9 @@ public class CreatorMapsActivity extends FragmentActivity implements OnMapReadyC
                     Log.d(CreatorMapsActivity.class.getName(), "Aucun polyline");
                 }
 
-                quelquepart.setPosition(new LatLng(malocalisation.getLatitude(), malocalisation.getLongitude()));
+                itself.setPosition(new LatLng(malocalisation.getLatitude(), malocalisation.getLongitude()));
                 float zoomlevel = (float) 16.0;
-                mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(quelquepart.getPosition(), zoomlevel));
+                mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(itself.getPosition(), zoomlevel));
 
             }
         }
@@ -106,6 +105,32 @@ public class CreatorMapsActivity extends FragmentActivity implements OnMapReadyC
         ProfileHead.sendGeol(this);
     }
 
+    @Override
+    public void onMapReady(GoogleMap googleMap) {
+        mMap = googleMap;
+
+        optionMarker = new MarkerOptions()
+                .position(new LatLng(malocalisation.getLatitude(),malocalisation.getLongitude()))
+                .title(ProfileHead.getUsername());
+        itself = mMap.addMarker(optionMarker);
+
+        LatLng coordinate = new LatLng(malocalisation.getLatitude(),malocalisation.getLongitude());
+  
+        CameraPosition location = new CameraPosition.Builder()
+                .target(coordinate)
+                .zoom(20)
+                .bearing(90)
+                .tilt(45)
+                .build();
+        mMap.animateCamera(CameraUpdateFactory.newCameraPosition(location));
+        Log.d(CreatorMapsActivity.class.getName(), "Latitudemap -> " + malocalisation.getLatitude());
+        Log.d(CreatorMapsActivity.class.getName(), "Longitudemap -> " + malocalisation.getLongitude());
+
+    }
+
+    /**
+     * AlertDialog callback
+     */
     private View.OnClickListener killit = new View.OnClickListener(){
         public void onClick(View v)
         {
@@ -132,40 +157,6 @@ public class CreatorMapsActivity extends FragmentActivity implements OnMapReadyC
             alertDialog.show();
         }
     };
-
-    @Override
-    public void onMapReady(GoogleMap googleMap) {
-        mMap = googleMap;
-
-        optionMarker = new MarkerOptions()
-                .position(new LatLng(malocalisation.getLatitude(),malocalisation.getLongitude()))
-                // .position(new LatLng(47.079667, 2.399401))
-                .title("Le beau marqueur");
-        quelquepart = mMap.addMarker(optionMarker);
-        // LatLng quelquepart = new LatLng(malocalisation.getLatitude(),malocalisation.getLongitude());
-        //mMap.addMarker(new MarkerOptions().position(quelquepart).title("Le beau marqueur"));
-        // mMap.addMarker(new MarkerOptions().position(ailleur).title("Le second marquer"));
-
-        //mMap.moveCamera(CameraUpdateFactory.newLatLng(quelquepart.getPosition()));
-        //float zoomlevel = (float) 16.0;
-        //mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(quelquepart.getPosition(), zoomlevel));
-        LatLng coordinate = new LatLng(malocalisation.getLatitude(),malocalisation.getLongitude());
-        //LatLng coordinate = new LatLng(47.079667, 2.399401);
-        /*CameraUpdate location = CameraUpdateFactory
-                .newLatLngZoom(coordinate, 20);*/
-        CameraPosition location = new CameraPosition.Builder()
-                .target(coordinate)
-                .zoom(20)
-                .bearing(90)
-                .tilt(45)
-                .build();
-        mMap.animateCamera(CameraUpdateFactory.newCameraPosition(location));
-        Log.d(CreatorMapsActivity.class.getName(), "Latitudemap -> " + malocalisation.getLatitude());
-        Log.d(CreatorMapsActivity.class.getName(), "Longitudemap -> " + malocalisation.getLongitude());
-
-        LatLng origin = new LatLng(malocalisation.getLatitude(), malocalisation.getLongitude());
-
-    }
 
     /**********************************************************
      * Permet de récupérer l'itinéraire GoogleMap

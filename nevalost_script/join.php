@@ -31,6 +31,7 @@
                               
                               $salt = openssl_random_pseudo_bytes(32);
                               $cookie = hash('sha256', $user.$pursuitName.$o_pursuit["password"].$salt);
+                              $creator = $o_pursuit["user"];
 
                               $follower->user = $user;
                               $follower->nom_poursuite  = $pursuitName;
@@ -41,7 +42,7 @@
 
                               $creation = $follower->Create();
 
-                              $response["statut"] = array("succes"=>"true","cookie"=>$cookie);
+                              $response["statut"] = array("succes"=>"true","cookie"=>$cookie, "creator"=>$creator);
 
                               header('Content-Type: application/json;charset=utf-8');
                               echo json_encode($response, JSON_FORCE_OBJECT | JSON_PRETTY_PRINT);

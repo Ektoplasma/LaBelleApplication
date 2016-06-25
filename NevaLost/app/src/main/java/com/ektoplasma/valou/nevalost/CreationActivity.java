@@ -72,7 +72,6 @@ public class CreationActivity extends AppCompatActivity {
             @Override
             public void onResponse(JSONObject response) {
                 try {
-                    //JSONObject jsonResponse = response.getJSONObject("form");
                     JSONObject jsonResponse = response.getJSONObject("statut");
                     String succes = jsonResponse.getString("succes");
 

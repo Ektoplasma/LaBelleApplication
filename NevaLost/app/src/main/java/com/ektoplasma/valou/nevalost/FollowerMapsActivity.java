@@ -47,11 +47,11 @@ public class FollowerMapsActivity extends FragmentActivity implements OnMapReady
 
     public static final String RECEIVE_JSON = "com.your.package.RECEIVE_JSON";
 
-    Marker quelquepart;
-    Marker ailleurs;
+    Marker itself;
+    Marker target;
     MarkerOptions optionMarker;
     GetLocalisation malocalisation;
-    LatLng dest;
+    LatLng targetlocalisation;
     Polyline polyline;
     Timer t;
 
@@ -61,18 +61,11 @@ public class FollowerMapsActivity extends FragmentActivity implements OnMapReady
         public void onReceive(Context context, Intent intent) {
             if(intent.getAction().equals(RECEIVE_JSON)) {
 
-                try{
-                    polyline.remove();
-                }
-                catch(Exception e){
-                    Log.d(FollowerMapsActivity.class.getName(), "Aucun polyline");
-                }
-
-                quelquepart.setPosition(new LatLng(malocalisation.getLatitude(), malocalisation.getLongitude()));
+                itself.setPosition(new LatLng(malocalisation.getLatitude(), malocalisation.getLongitude()));
                 float zoomlevel = (float) 16.0;
-                mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(quelquepart.getPosition(), zoomlevel));
+                mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(itself.getPosition(), zoomlevel));
 
-                String url = getDirectionsUrl(new LatLng(malocalisation.getLatitude(), malocalisation.getLongitude()), dest);
+                String url = getDirectionsUrl(new LatLng(malocalisation.getLatitude(), malocalisation.getLongitude()), targetlocalisation);
 
                 DownloadTask downloadTask = new DownloadTask();
 
@@ -84,17 +77,17 @@ public class FollowerMapsActivity extends FragmentActivity implements OnMapReady
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        
         setContentView(R.layout.activity_follower_maps);
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+        
         LocalBroadcastManager bManager = LocalBroadcastManager.getInstance(this);
         IntentFilter intentFilter = new IntentFilter();
         intentFilter.addAction(RECEIVE_JSON);
         bManager.registerReceiver(bReceiver, intentFilter);
         malocalisation = new GetLocalisation(getApplicationContext());
-
-
 
         ProfileHead.setCarry(false);
 
@@ -108,21 +101,13 @@ public class FollowerMapsActivity extends FragmentActivity implements OnMapReady
                     {
                         ProfilePack.getGeol(mContext);
 
-
                         double lon = ProfilePack.getMasterLong();
                         double lat = ProfilePack.getMasterLat();
 
-                        dest = new LatLng(lat, lon);
+                        targetlocalisation = new LatLng(lat, lon);
 
-                        try{
-                            polyline.remove();
-                        }
-                        catch(Exception e){
-                            Log.d(FollowerMapsActivity.class.getName(), "Aucun polyline");
-                        }
-
-                        if(ailleurs != null) ailleurs.setPosition(dest);
-                        String url = getDirectionsUrl(new LatLng(malocalisation.getLatitude(), malocalisation.getLongitude()), dest);
+                        if(target != null) target.setPosition(targetlocalisation);
+                        String url = getDirectionsUrl(new LatLng(malocalisation.getLatitude(), malocalisation.getLongitude()), targetlocalisation);
 
                         DownloadTask downloadTask = new DownloadTask();
 
@@ -139,22 +124,13 @@ public class FollowerMapsActivity extends FragmentActivity implements OnMapReady
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
 
-        optionMarker = new MarkerOptions()
-                .position(new LatLng(malocalisation.getLatitude(),malocalisation.getLongitude()))
-                // .position(new LatLng(47.079667, 2.399401))
-                .title("Le beau marqueur");
-        quelquepart = mMap.addMarker(optionMarker);
-        // LatLng quelquepart = new LatLng(malocalisation.getLatitude(),malocalisation.getLongitude());
-        //mMap.addMarker(new MarkerOptions().position(quelquepart).title("Le beau marqueur"));
-        // mMap.addMarker(new MarkerOptions().position(ailleur).title("Le second marquer"));
+        optionMarker = new MarkerOptions();
+        optionMarker.position(new LatLng(malocalisation.getLatitude(), malocalisation.getLongitude()));
+        optionMarker.title(ProfilePack.getUsername());
+        itself = mMap.addMarker(optionMarker);
 
-        //mMap.moveCamera(CameraUpdateFactory.newLatLng(quelquepart.getPosition()));
-        //float zoomlevel = (float) 16.0;
-        //mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(quelquepart.getPosition(), zoomlevel));
         LatLng coordinate = new LatLng(malocalisation.getLatitude(),malocalisation.getLongitude());
-        //LatLng coordinate = new LatLng(47.079667, 2.399401);
-        /*CameraUpdate location = CameraUpdateFactory
-                .newLatLngZoom(coordinate, 20);*/
+
         CameraPosition location = new CameraPosition.Builder()
                 .target(coordinate)
                 .zoom(20)
@@ -167,9 +143,9 @@ public class FollowerMapsActivity extends FragmentActivity implements OnMapReady
 
         LatLng origin = new LatLng(malocalisation.getLatitude(), malocalisation.getLongitude());
 
-        dest = new LatLng(malocalisation.getLatitude(), malocalisation.getLongitude());
-        ailleurs = mMap.addMarker(new MarkerOptions().position(dest).title("Le second marquer"));
-        String url = getDirectionsUrl(origin, dest);
+        targetlocalisation = new LatLng(malocalisation.getLatitude(), malocalisation.getLongitude());
+        target = mMap.addMarker(new MarkerOptions().position(targetlocalisation).title(ProfileHead.getUsername()));
+        String url = getDirectionsUrl(origin, targetlocalisation);
 
         DownloadTask downloadTask = new DownloadTask();
 
@@ -318,7 +294,13 @@ public class FollowerMapsActivity extends FragmentActivity implements OnMapReady
                 lineOptions.color(Color.RED);
             }
 
-            // Drawing polyline in the Google Map for the i-th route
+            try{
+                polyline.remove();
+            }
+            catch(Exception e){
+                Log.d(FollowerMapsActivity.class.getName(), "Aucun polyline");
+            }
+
             polyline = mMap.addPolyline(lineOptions);
 
         }

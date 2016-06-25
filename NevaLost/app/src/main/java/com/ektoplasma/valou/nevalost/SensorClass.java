@@ -41,7 +41,7 @@ public class SensorClass implements SensorEventListener {
                     mRotationMatrix , event.values);
             float[] orientation = new float[3];
             SensorManager.getOrientation(mRotationMatrix, orientation);
-            float bearing = (float) (Math.toDegrees(orientation[0]) + mDeclination);//Math.toDegrees retourne un double et je ne sais pas trop comment caster ça
+            float bearing = (float) (Math.toDegrees(orientation[0]) + mDeclination);
             if(ProfileHead.isCarry()) {
                 CreatorMapsActivity labellemap = new CreatorMapsActivity();
                 labellemap.updateCamera(bearing);
