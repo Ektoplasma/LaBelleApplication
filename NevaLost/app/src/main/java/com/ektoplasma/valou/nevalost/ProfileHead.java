@@ -52,7 +52,7 @@ public final class ProfileHead {
 
     public static void sendGeol(Context ctx){
 
-        Map<String, String> params = new HashMap<>();
+        Map<String, String> params = new HashMap<String, String>();
         params.put("longitude", String.valueOf(currentLong));
         params.put("latitude", String.valueOf(currentLat));
         params.put("cookie",cookieInstance);
@@ -94,7 +94,7 @@ public final class ProfileHead {
         currentLat = lat;
         currentLong = lon;
 
-        Map<String, String> params = new HashMap<>();
+        Map<String, String> params = new HashMap<String, String>();
         params.put("longitude", String.valueOf(currentLong));
         params.put("latitude", String.valueOf(currentLat));
         params.put("cookie",cookieInstance);
@@ -134,7 +134,7 @@ public final class ProfileHead {
     }
 
     public static void deletePursuit(Context ctx){
-        Map<String, String> params = new HashMap<>();
+        Map<String, String> params = new HashMap<String, String>();
         params.put("cookie",cookieInstance);
 
         Response.Listener<JSONObject> reponseListener= new Response.Listener<JSONObject>() {

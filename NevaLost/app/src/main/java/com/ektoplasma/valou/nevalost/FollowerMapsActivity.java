@@ -262,7 +262,7 @@ public class FollowerMapsActivity extends FragmentActivity implements OnMapReady
 
             // Traversing through all the routes
             for (int i = 0; i < result.size(); i++) {
-                points = new ArrayList<>();
+                points = new ArrayList<LatLng>();
                 lineOptions = new PolylineOptions();
 
                 // Fetching i-th route

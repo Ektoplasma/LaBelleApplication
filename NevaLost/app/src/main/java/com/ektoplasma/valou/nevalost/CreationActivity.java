@@ -1,8 +1,8 @@
 package com.ektoplasma.valou.nevalost;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -18,7 +18,7 @@ import org.json.JSONObject;
 import java.util.HashMap;
 import java.util.Map;
 
-public class CreationActivity extends AppCompatActivity {
+public class CreationActivity extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,7 +60,7 @@ public class CreationActivity extends AppCompatActivity {
     }
 
     protected void requestInstance(String user, String pursuit, String password){
-        Map<String, String> params = new HashMap<>();
+        Map<String, String> params = new HashMap<String, String>();
         params.put("user", user);
         params.put("pursuit", pursuit);
         params.put("password",password);

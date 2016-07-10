@@ -10,6 +10,7 @@
     <string name="title_activity_test_map">Map</string>
     <string name="title_activity_creator_maps">Map</string>
     <string name="title_activity_follower_maps">Map</string>
-    <string name="hostname_server">valou.ddns.net</string>
+    <string name="hostname_server">10.0.2.2</string>
     <string name="stop_pursuit">Stop pursuit</string>
 </resources>
+

@@ -45,7 +45,7 @@ public final class ProfilePack {
 
     public static void getGeol(Context ctx){
 
-        Map<String, String> params = new HashMap<>();
+        Map<String, String> params = new HashMap<String, String>();
         params.put("cookie",cookieInstance);
 
         Response.Listener<JSONObject> reponseListener= new Response.Listener<JSONObject>() {

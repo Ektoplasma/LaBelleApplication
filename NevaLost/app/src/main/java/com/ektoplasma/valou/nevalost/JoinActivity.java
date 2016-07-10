@@ -1,7 +1,7 @@
 package com.ektoplasma.valou.nevalost;
 
+import android.app.Activity;
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -18,7 +18,7 @@ import org.json.JSONObject;
 import java.util.HashMap;
 import java.util.Map;
 
-public class JoinActivity extends AppCompatActivity {
+public class JoinActivity extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,7 +62,7 @@ public class JoinActivity extends AppCompatActivity {
     }
 
     protected void joinInstance(String user, String pursuit, String password){
-        Map<String, String> params = new HashMap<>();
+        Map<String, String> params = new HashMap<String, String>();
         params.put("user", user);
         params.put("pursuit", pursuit);
         params.put("password",password);
